@@ -52,7 +52,7 @@ public class Nivel3Manager : MonoBehaviour
     [Header("Escenas (deben estar en Build Settings)")]
     public string escenaDerrota = "Derrota";
     public string escenaSeleccion = "LevelSelector";
-    public string escenaMenu = "Menu";
+    public string escenaMenu = "Start_Menu";
 
     [Header("Sonidos opcionales (si no, se generan solos)")]
     public AudioClip sonidoExito;
