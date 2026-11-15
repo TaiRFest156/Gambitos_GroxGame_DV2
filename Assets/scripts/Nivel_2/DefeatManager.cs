@@ -5,7 +5,6 @@ public class DefeatManager : MonoBehaviour
 {
     private int consecutiveMistakes = 0;      // Errores consecutivos
     private int maxConsecutiveMistakes = 4;   // Limite de errores seguidos
-    private int minScoreToWin = 1050;         // Debe coincidir con VictoryManager
     private bool defeatTriggered = false;     // Evita disparar la derrota dos veces
 
     private ResidueLevelManager levelManager;
@@ -35,7 +34,7 @@ public class DefeatManager : MonoBehaviour
     // Al acabarse el tiempo: si no llego a la meta, pierde
     public void CheckForTimeOutDefeat()
     {
-        if (levelManager != null && levelManager.GetScore() < minScoreToWin)
+        if (levelManager != null && levelManager.GetScore() < levelManager.MetaPuntaje)
         {
             TriggerDefeat();
         }

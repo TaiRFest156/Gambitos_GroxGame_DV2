@@ -2284,6 +2284,22 @@ MonoBehaviour:
   residueParticles: {fileID: 1894535813}
   victoryManager: {fileID: 333774575}
   defeatManager: {fileID: 1580215161}
+  metaPuntaje: 1050
+  derrotaPorErroresSeguidos: 1
+  cuentaRegresiva: 3
+  escalaResiduos: 0.1
+  escalaAlLlegar: 0.6
+  esperaEntreResiduos: 0.45
+  apuntarAlContenedor: 1
+  camaraJuego: {fileID: 0}
+  contenedorPapel: {fileID: 1924035801}
+  contenedorVidrio: {fileID: 1952480945}
+  contenedorPlastico: {fileID: 1488347673}
+  umbralInclinacion: 0.3
+  tiempoConfirmar: 0.1
+  zonaMuerta: 0.12
+  invertirLateral: 0
+  invertirArriba: 0
 --- !u!4 &1134979836
 Transform:
   m_ObjectHideFlags: 0

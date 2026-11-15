@@ -20,14 +20,14 @@ public class VictoryManager : MonoBehaviour
         // Buscar el LevelManager para obtener el puntaje
         levelManager = Object.FindFirstObjectByType<ResidueLevelManager>();
 
-        // Asegurarse de que el panel de victoria esté oculto al inicio
+        // Asegurarse de que el panel de victoria estÃ© oculto al inicio
         victoryPanel.SetActive(false);
     }
 
     void Update()
     {
-        // Comprobar si el puntaje es 1050 o más al final del tiempo
-        if (levelManager.GetScore() >= 1050 && !victoryPanel.activeSelf && levelManager.GetTimeRemaining() <= 0)
+        // Comprobar si se alcanzo la meta de puntaje al final del tiempo
+        if (levelManager.GetScore() >= levelManager.MetaPuntaje && !victoryPanel.activeSelf && levelManager.GetTimeRemaining() <= 0)
         {
             ShowVictoryPanel();
         }
