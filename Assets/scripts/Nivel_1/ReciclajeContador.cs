@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ReciclajeContador
 {
-    // Puntaje mínimo para pasar el nivel (lo define ObjetivoUI)
+    // Puntaje mÃ­nimo para pasar el nivel (lo define ObjetivoUI)
     public static int MetaPuntaje = 10000;
 
     // Se dispara cada vez que cambia el conteo
@@ -32,6 +32,14 @@ public static class ReciclajeContador
         { "Papel", 1500 }
     };
 
+    // Puntos extra por combo (se suman al total, no se ven en el conteo por tipo)
+    public static int PuntosBonus = 0;
+
+    public static void AgregarBonus(int puntos)
+    {
+        PuntosBonus += puntos;
+    }
+
     // Registrar un objeto recogido
     public static void Registrar(string tipo)
     {
@@ -45,6 +53,7 @@ public static class ReciclajeContador
     {
         var keys = new List<string>(conteo.Keys);
         foreach (var k in keys) conteo[k] = 0;
+        PuntosBonus = 0;
         OnConteoCambiado?.Invoke();
     }
 
@@ -58,10 +67,10 @@ public static class ReciclajeContador
             int valor = valores.ContainsKey(tipo) ? valores[tipo] : 0;
             total += cantidad * valor;
         }
-        return total;
+        return total + PuntosBonus;
     }
 
-    // ¿Alcanzó la meta de puntaje?
+    // Â¿AlcanzÃ³ la meta de puntaje?
     public static bool SuperoMeta()
     {
         return CalcularPuntajeTotal() >= MetaPuntaje;
