@@ -3237,7 +3237,7 @@ MonoBehaviour:
   textoPuntaje: {fileID: 1362807614}
   avisoCompletado: {fileID: 1820538970}
   metasPorNivel: 10270000400d030020a10700
-  metaManual: 0
+  metaManual: 40000
   resetearAlIniciar: 1
   colorPendiente: {r: 1, g: 0.75, b: 0.1, a: 1}
   colorCompletado: {r: 0, g: 1, b: 0, a: 1}
@@ -3297,6 +3297,7 @@ MonoBehaviour:
   - {fileID: 124406358728296116, guid: 0f19a732006400947981c8a94548a823, type: 3}
   - {fileID: 3230034147011233538, guid: c8123449a980e6c438fa9bb06277785a, type: 3}
   - {fileID: 886454491337924817, guid: 4ad381d7bc009f340abe5fcf9f99c923, type: 3}
+  pesosPrefabs: 
   minX: -3.55
   maxX: 4.64
   minZ: 12.02
@@ -3306,6 +3307,17 @@ MonoBehaviour:
   tiempoMinimo: 0.4
   reduccionTiempo: 0.01
   duracionSpawner: 30
+  candidatosPorSpawn: 8
+  memoriaSpawns: 12
+  distanciaMinimaJugador: 2.5
+  habilitarEsferas: 1
+  esferaPrefab: {fileID: 0}
+  probabilidadEsfera: 0.08
+  probabilidadEsferaEnergiaBaja: 0.45
+  energiaBajaPorcentaje: 25
+  maxEsferasActivas: 2
+  segundosMinimosEntreEsferas: 5
+  alturaCaidaEsfera: 8
 --- !u!4 &994987687
 Transform:
   m_ObjectHideFlags: 0
@@ -6536,6 +6548,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930329735}
   m_CullTransparentMesh: 1
+--- !u!1 &1942942362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942942364}
+  - component: {fileID: 1942942363}
+  m_Layer: 0
+  m_Name: Nivel1Sistema
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942942363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942942362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee9db0f19f9bea4bb8805c6646cda28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel1Sistema
+  rangoDisparo: 14
+  energiaMaxima: 100
+  costoDisparo: 5
+  regenPorSegundo: 3
+  retrasoRegen: 1.2
+  energiaPorEsfera: 30
+  porResiduoCaido: 3
+  limpiezaPorCaptura: 0.4
+  segundosAntesDeDesvanecer: 1.5
+  pesoToxico: 2
+  pesoPlastico: 1.3
+  pesoMetal: 1.2
+  pesoVidrio: 1
+  pesoPapel: 0.8
+  pesoOrganico: 0.6
+  colorContaminacion: {r: 0.45, g: 0.5, b: 0.3, a: 1}
+  densidadNieblaMaxima: 0.035
+  intensidadLuzMinima: 0.65
+  alterarNiebla: 1
+  alterarLuz: 1
+  escenaDerrota: Derrota
+  ventanaCombo: 2.5
+  fallarRompeCombo: 0
+  segundosExtraPorEsfera: 1
+  tramosCombo:
+  - desde: 1
+    multiplicador: 1
+  - desde: 3
+    multiplicador: 1.25
+  - desde: 5
+    multiplicador: 1.5
+  - desde: 8
+    multiplicador: 2
+  - desde: 12
+    multiplicador: 2.5
+--- !u!4 &1942942364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942942362}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.99591, y: 0, z: 3.95037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1983141772 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 733e74d090021cc46a46d8fe645fc3a8, type: 3}
@@ -6886,6 +6977,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 191566854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2082256217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2082256219}
+  - component: {fileID: 2082256218}
+  m_Layer: 0
+  m_Name: Nivel1Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2082256218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082256217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3654d61274b9c468193404fa460e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel1Audio
+  disparo: {fileID: 0}
+  captura: {fileID: 0}
+  fallo: {fileID: 0}
+  fueraDeRango: {fileID: 0}
+  sinEnergia: {fileID: 0}
+  recarga: {fileID: 0}
+  suelo: {fileID: 0}
+  alerta: {fileID: 0}
+  combo: {fileID: 0}
+  comboRoto: {fileID: 0}
+  orbeAparece: {fileID: 0}
+  ambienteContaminacion: {fileID: 0}
+  volumen: 0.8
+  volumenAmbienteMaximo: 0.35
+--- !u!4 &2082256219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082256217}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.99591, y: 0, z: 3.95037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2103258338
 GameObject:
   m_ObjectHideFlags: 0
@@ -7169,3 +7318,5 @@ SceneRoots:
   - {fileID: 1917742638}
   - {fileID: 1782819929}
   - {fileID: 579612428}
+  - {fileID: 1942942364}
+  - {fileID: 2082256219}
