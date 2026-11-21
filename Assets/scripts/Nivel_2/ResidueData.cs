@@ -18,4 +18,7 @@ public class ResidueData : ScriptableObject
 
     public int scoreValue = 10;
     public int penaltyValue = -5;
+
+    [Tooltip("Escala propia de este residuo (se multiplica por 'Escala Residuos' del manager). Util si una botella se ve mas grande que una hoja.")]
+    public float escala = 1f;
 }
