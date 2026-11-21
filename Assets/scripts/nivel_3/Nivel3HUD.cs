@@ -234,6 +234,7 @@ public class Nivel3HUD : MonoBehaviour
         datoTitulo.text = "DATO CURIOSO: " + producto.ToUpperInvariant();
         datoTexto.text = texto;
         cerrarDato = false;
+        ControlesJugador.CursorLibreForzado = true;   // para poder tocar 'Continuar'
         datoRoot.SetActive(true);
 
         float t = 0f;
@@ -261,6 +262,7 @@ public class Nivel3HUD : MonoBehaviour
             yield return null;
         }
         datoRoot.SetActive(false);
+        ControlesJugador.CursorLibreForzado = false;
     }
 
     public void MostrarResultado(string titulo, int estrellas, string detalle,
@@ -268,6 +270,7 @@ public class Nivel3HUD : MonoBehaviour
     {
         resTitulo.text = titulo;
         resDetalle.text = detalle;
+        ControlesJugador.CursorLibreForzado = true;   // el resultado necesita el raton / el dedo
 
         // Botones (se reconectan cada vez)
         Button[] botones = resRoot.GetComponentsInChildren<Button>(true);

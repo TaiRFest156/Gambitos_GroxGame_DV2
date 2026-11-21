@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -9,7 +11,9 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask interactMask = ~0;
 
     [Header("UI")]
-    [SerializeField] private Button interactButton;   // Botón del Canvas
+    [SerializeField] private Button interactButton;   // BotÃ³n del Canvas
+
+    [SerializeField] private bool mostrarTeclaEnBoton = true;
 
     private IInteractable current;
 
@@ -18,10 +22,18 @@ public class PlayerInteractor : MonoBehaviour
         if (cam == null) cam = Camera.main;
         interactButton.gameObject.SetActive(false);
         interactButton.onClick.AddListener(OnButtonClicked);
+
+        // En PC el boton avisa que se usa con la tecla E
+        if (mostrarTeclaEnBoton && ControlesJugador.PCActivo && !ControlesJugador.TactilActivo)
+        {
+            TMP_Text txt = interactButton.GetComponentInChildren<TMP_Text>(true);
+            if (txt != null) txt.text = "Interactuar [E]";
+        }
     }
 
     private void Update()
     {
+        if (Time.timeScale == 0f) return;   // pausa o manual abierto
         current = null;
 
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
@@ -33,6 +45,15 @@ public class PlayerInteractor : MonoBehaviour
         }
 
         interactButton.gameObject.SetActive(current != null);
+
+        // PC / mando: E o boton X
+        if (current != null && !ControlesJugador.CursorLibreForzado)
+        {
+            Keyboard kb = Keyboard.current;
+            Gamepad gp = Gamepad.current;
+            bool pedido = (kb != null && kb.eKey.wasPressedThisFrame) || (gp != null && gp.buttonWest.wasPressedThisFrame);
+            if (pedido) current.Interact();
+        }
     }
 
     private void OnButtonClicked()

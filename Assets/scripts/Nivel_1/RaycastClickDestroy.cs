@@ -15,17 +15,26 @@ public class RaycastClickDestroy : MonoBehaviour
     {
         cam = Camera.main;
         Nivel1Sistema.Asegurar();
+        ControlesJugador.Asegurar();
     }
 
     void Update()
     {
         if (Time.timeScale == 0f) return;   // pausa o manual abierto
 
-        Pointer pointer = Pointer.current;
-        if (pointer == null || !pointer.press.wasPressedThisFrame) return;
+        // ---- Orden de disparar (movil: boton FUEGO o toque corto; PC: clic izquierdo; mando: gatillo derecho)
+        bool disparo = ControlesJugador.ConsumirDisparo();
 
-        // Solo la mitad derecha de la pantalla (la izquierda es el joystick)
-        if (pointer.position.ReadValue().x <= Screen.width / 2f) return;
+        Mouse mouse = Mouse.current;
+        if (!disparo && mouse != null && ControlesJugador.UsaRaton && ControlesJugador.CursorBloqueado
+            && Time.frameCount != ControlesJugador.FrameUltimoBloqueo && mouse.leftButton.wasPressedThisFrame)
+            disparo = true;
+
+        Gamepad gamepad = Gamepad.current;
+        if (!disparo && gamepad != null && gamepad.rightTrigger.wasPressedThisFrame)
+            disparo = true;
+
+        if (!disparo || ControlesJugador.CursorLibreForzado) return;
 
         Nivel1Sistema sis = Nivel1Sistema.Instance;
 
@@ -45,7 +54,8 @@ public class RaycastClickDestroy : MonoBehaviour
             if (pistola == null || pistola.sonidoDisparo == null) Nivel1Audio.Reproducir(SonidoN1.Disparo);
         }
 
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        Transform camJ = ControlesJugador.CamaraJugador != null ? ControlesJugador.CamaraJugador : cam.transform;
+        Ray ray = new Ray(camJ.position, camJ.forward);
         float rango = sis != null ? sis.rangoDisparo : rayDistance;
 
 #if UNITY_EDITOR
@@ -59,7 +69,7 @@ public class RaycastClickDestroy : MonoBehaviour
             return;
         }
 
-        // No llego: ¿habia algo mas lejos?
+        // No llego: Â¿habia algo mas lejos?
         if (sis != null)
         {
             RaycastHit lejos;
