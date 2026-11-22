@@ -1,3 +1,7 @@
+Descripción General del Proyecto:
+Grox: Limpieza Espacial es un videojuego educativo, arcade y de puzles interactivos diseñado para estudiantes de nivel escolar y público general. Ambientado en un futuro lejano donde la humanidad arroja sus residuos al espacio exterior, la historia sitúa al jugador en el planeta pacífico Nimbus-072, cuyo ecosistema corre peligro de colapsar tras recibir una lluvia accidental de desechos espaciales.
+El protagonista, Grox, un habitante marciano empático y comprometido con la naturaleza, debe utilizar su Pistola de Rayo Recolector y su Manual Intergaláctico de Reciclaje para interceptar, separar y procesar distintos tipos de residuos (plástico, vidrio y papel). El título articula entretenimiento dinámico con aprendizaje de impacto ambiental promoviendo hábitos de clasificación y conciencia sobre la economía circular.
+
 1. Actividad 1: Ficha del juego
 <h2>1.1. Información general</h2>
 
