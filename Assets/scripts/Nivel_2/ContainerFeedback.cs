@@ -82,9 +82,15 @@ public class ContainerFeedback : MonoBehaviour
         halo.localScale = Rect.localScale * 1.9f;
     }
 
+    private void OnEnable()
+    {
+        if (haloImg != null) haloImg.gameObject.SetActive(true);
+    }
+
     private void OnDisable()
     {
         Restaurar();
+        if (haloImg != null) haloImg.gameObject.SetActive(false);   // contenedor oculto: sin resplandor
     }
 
     // ------------------------------------------------------------------ API

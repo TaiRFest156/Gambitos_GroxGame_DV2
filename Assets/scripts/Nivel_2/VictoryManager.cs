@@ -10,6 +10,9 @@ public class VictoryManager : MonoBehaviour
     public TextMeshProUGUI correctResiduosText;  // Texto para mostrar los residuos acertados
     public TextMeshProUGUI wrongResiduosText;  // Texto para mostrar los residuos fallados
 
+    [Tooltip("El panel de victoria antiguo queda apagado: ahora se usa la pantalla de puntaje comun")]
+    public bool usarPanelAntiguo = false;
+
     private int correctResiduos = 0;
     private int wrongResiduos = 0;
 
@@ -21,12 +24,14 @@ public class VictoryManager : MonoBehaviour
         levelManager = Object.FindFirstObjectByType<ResidueLevelManager>();
 
         // Asegurarse de que el panel de victoria esté oculto al inicio
-        victoryPanel.SetActive(false);
+        if (victoryPanel != null) victoryPanel.SetActive(false);
     }
 
     void Update()
     {
         // Comprobar si se alcanzo la meta de puntaje al final del tiempo
+        if (!usarPanelAntiguo || levelManager == null || victoryPanel == null) return;
+
         if (levelManager.GetScore() >= levelManager.MetaPuntaje && !victoryPanel.activeSelf && levelManager.GetTimeRemaining() <= 0)
         {
             ShowVictoryPanel();
@@ -48,6 +53,8 @@ public class VictoryManager : MonoBehaviour
     // Activar el panel de victoria y mostrar los datos
     public void ShowVictoryPanel()
     {
+        if (!usarPanelAntiguo || victoryPanel == null) return;
+
         victoryPanel.SetActive(true);  // Mostrar el panel de victoria
 
         // Mostrar los datos en el panel

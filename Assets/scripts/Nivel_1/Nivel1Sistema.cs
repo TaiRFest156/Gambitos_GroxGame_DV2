@@ -105,6 +105,9 @@ public class Nivel1Sistema : MonoBehaviour
     private float tiempoCombo;
     private float multiplicadorActual = 1f;
 
+    // Mejor racha de la partida (para la pantalla de puntaje)
+    public int MejorCombo { get; private set; }
+
     private Nivel1HUD hud;
 
     // originales del escenario (para restaurar)
@@ -272,6 +275,7 @@ public class Nivel1Sistema : MonoBehaviour
 
         float multAnterior = multiplicadorActual;
         combo++;
+        if (combo > MejorCombo) MejorCombo = combo;
         tiempoCombo = ventanaCombo;
         multiplicadorActual = MultiplicadorPara(combo);
 

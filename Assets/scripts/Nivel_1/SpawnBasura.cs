@@ -25,6 +25,11 @@ public class SpawnBasura : MonoBehaviour
     [Header("Duración del spawner")]
     public float duracionSpawner = 60f;
 
+    [Header("Estrellas (multiplos de la meta de puntaje)")]
+    [Tooltip("1 estrella = alcanzar la meta. 2 y 3 estrellas = esta cantidad de veces la meta.")]
+    public float umbralDosEstrellas = 1.5f;
+    public float umbralTresEstrellas = 2f;
+
     // ====== Nuevos ======
     [Header("Distribucion natural")]
     [Tooltip("Por cada residuo se prueban varias posiciones y se elige la mas alejada de los ultimos: reparte la basura sin amontonarla")]
@@ -111,18 +116,9 @@ public class SpawnBasura : MonoBehaviour
         // Ya no se puede perder por contaminacion
         if (Nivel1Sistema.Instance != null) Nivel1Sistema.Instance.NivelTerminado();
 
+        // Pantalla de puntaje (estrellas, resumen, guardar, ranking). Reemplaza al panel anterior.
         SceneLoader loader = Object.FindFirstObjectByType<SceneLoader>();
-        if (loader != null)
-        {
-            loader.OnSpawnerFinished();
-
-            if (!ReciclajeContador.SuperoMeta())
-            {
-                Time.timeScale = 1f;
-                PlayerPrefs.SetString("EscenaAnterior", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Derrota");
-            }
-        }
+        Nivel1Resultados.Mostrar(loader, umbralDosEstrellas, umbralTresEstrellas);
     }
 
     // ================================================================== residuos
