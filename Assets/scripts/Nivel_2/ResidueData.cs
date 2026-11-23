@@ -4,7 +4,9 @@ public enum ResidueKind
 {
     Vidrio,
     Papel,
-    Plastico
+    Plastico,
+    Organico,
+    Peligroso
 }
 
 [CreateAssetMenu(fileName = "ResidueData", menuName = "Game/Residue")]

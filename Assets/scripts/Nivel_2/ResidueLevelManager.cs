@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 
 public class ResidueLevelManager : MonoBehaviour
@@ -32,6 +33,13 @@ public class ResidueLevelManager : MonoBehaviour
     [Tooltip("Si esta activo, perder 4 errores seguidos termina el nivel (regla de DefeatManager)")]
     public bool derrotaPorErroresSeguidos = true;
 
+    [Header("Puntaje")]
+    [Tooltip("Escena a la que lleva 'Siguiente nivel' (vacio = sin boton)")]
+    public string escenaSiguiente = "Nivel_3";
+    [Tooltip("Estrellas: multiplos de la meta de puntaje. 1 estrella = alcanzar la meta.")]
+    public float umbralDosEstrellas = 1.25f;
+    public float umbralTresEstrellas = 1.5f;
+
     [Header("Inicio")]
     [Tooltip("Segundos de cuenta regresiva antes de que corra el tiempo")]
     public int cuentaRegresiva = 3;
@@ -54,6 +62,22 @@ public class ResidueLevelManager : MonoBehaviour
     public Graphic contenedorPapel;
     public Graphic contenedorVidrio;
     public Graphic contenedorPlastico;
+
+    [Header("Contenedores extra y sorteo (5 disponibles, 3 por partida)")]
+    [Tooltip("Imagen del contenedor marron de residuos organicos (opcional)")]
+    public Graphic contenedorOrganico;
+    [Tooltip("Imagen del contenedor rojo de residuos peligrosos (opcional)")]
+    public Graphic contenedorPeligroso;
+    [Tooltip("Al empezar el nivel se sortean 3 de los contenedores disponibles")]
+    public bool sortearContenedores = true;
+    [Tooltip("Ademas del sorteo, se mezclan sus posiciones (izquierda / arriba / derecha)")]
+    public bool mezclarPosiciones = true;
+    [Tooltip("Evita que toquen los mismos 3 contenedores dos veces seguidas")]
+    public bool evitarRepetirSorteo = true;
+    [Tooltip("Opcional: posiciones de los 3 lugares. Vacio = las posiciones actuales de los contenedores de papel (izq.), vidrio (arriba) y plastico (der.)")]
+    public RectTransform slotIzquierda;
+    public RectTransform slotArriba;
+    public RectTransform slotDerecha;
 
     [Header("Control de inclinacion")]
     [Tooltip("Cuanto hay que inclinar (0.30 = unos 17 grados). Mas alto = menos sensible.")]
@@ -83,7 +107,21 @@ public class ResidueLevelManager : MonoBehaviour
 
     private TiltController tilt;
     private Nivel2Effects efectos;
-    private ContainerFeedback cfPapel, cfVidrio, cfPlastico;
+    private ContainerFeedback cfPapel, cfVidrio, cfPlastico, cfOrganico, cfPeligroso;
+    private ContainerFeedback[] feedbacks;
+
+    // que contenedor hay en cada lugar (cambia con el sorteo)
+    private ResidueKind kindIzq = ResidueKind.Papel;
+    private ResidueKind kindArriba = ResidueKind.Vidrio;
+    private ResidueKind kindDer = ResidueKind.Plastico;
+    private readonly List<ResidueData> poolActivo = new List<ResidueData>();
+    private static string ultimoSorteo = "";
+
+    // estadisticas para la pantalla de puntaje
+    private readonly Dictionary<ResidueKind, int> aciertosTipo = new Dictionary<ResidueKind, int>();
+    private readonly Dictionary<ResidueKind, int> erroresTipo = new Dictionary<ResidueKind, int>();
+    private readonly Dictionary<ResidueKind, int> puntosTipo = new Dictionary<ResidueKind, int>();
+    private int mejorRacha;
 
     // ================================================================== inicio
     void Start()
@@ -103,13 +141,19 @@ public class ResidueLevelManager : MonoBehaviour
         tilt.invertirLateral = invertirLateral;
         tilt.invertirArriba = invertirArriba;
 
+        // Primero se sortean y colocan los contenedores; despues se les agrega el feedback
+        SortearContenedores();
+
         cfPapel = ObtenerFeedback(contenedorPapel);
         cfVidrio = ObtenerFeedback(contenedorVidrio);
         cfPlastico = ObtenerFeedback(contenedorPlastico);
+        cfOrganico = ObtenerFeedback(contenedorOrganico);
+        cfPeligroso = ObtenerFeedback(contenedorPeligroso);
+        feedbacks = new ContainerFeedback[] { cfPapel, cfVidrio, cfPlastico, cfOrganico, cfPeligroso };
 
         efectos = Object.FindFirstObjectByType<Nivel2Effects>();
         if (efectos == null) efectos = gameObject.AddComponent<Nivel2Effects>();
-        efectos.Configurar(scoreText, timerText, new ContainerFeedback[] { cfPapel, cfVidrio, cfPlastico });
+        efectos.Configurar(scoreText, timerText, feedbacks);
 
         if (timerText != null) timerText.text = Mathf.Ceil(timeRemaining).ToString();
         UpdateUI();
@@ -119,7 +163,7 @@ public class ResidueLevelManager : MonoBehaviour
 
     ContainerFeedback ObtenerFeedback(Graphic g)
     {
-        if (g == null) return null;
+        if (g == null || !g.gameObject.activeInHierarchy) return null;
         ContainerFeedback cf = g.GetComponent<ContainerFeedback>();
         if (cf == null) cf = g.gameObject.AddComponent<ContainerFeedback>();
         return cf;
@@ -201,9 +245,15 @@ public class ResidueLevelManager : MonoBehaviour
     void ActualizarPrevisualizacion(bool puede)
     {
         DireccionInclinacion d = puede ? tilt.DireccionPrevia : DireccionInclinacion.Ninguna;
-        if (cfPapel != null) cfPapel.previsualizando = d == DireccionInclinacion.Izquierda;
-        if (cfPlastico != null) cfPlastico.previsualizando = d == DireccionInclinacion.Derecha;
-        if (cfVidrio != null) cfVidrio.previsualizando = d == DireccionInclinacion.Arriba;
+        if (feedbacks != null)
+            foreach (ContainerFeedback cf in feedbacks)
+                if (cf != null) cf.previsualizando = false;
+
+        ContainerFeedback activo = null;
+        if (d == DireccionInclinacion.Izquierda) activo = Contenedor(kindIzq);
+        else if (d == DireccionInclinacion.Derecha) activo = Contenedor(kindDer);
+        else if (d == DireccionInclinacion.Arriba) activo = Contenedor(kindArriba);
+        if (activo != null) activo.previsualizando = true;
     }
 
     void Lanzar(DireccionInclinacion dir)
@@ -211,11 +261,11 @@ public class ResidueLevelManager : MonoBehaviour
         switch (dir)
         {
             case DireccionInclinacion.Izquierda:
-                StartCoroutine(ThrowResidue(targetLeft, ResidueKind.Papel)); break;      // izquierda = papel
+                StartCoroutine(ThrowResidue(targetLeft, kindIzq)); break;
             case DireccionInclinacion.Derecha:
-                StartCoroutine(ThrowResidue(targetRight, ResidueKind.Plastico)); break;  // derecha = plastico
+                StartCoroutine(ThrowResidue(targetRight, kindDer)); break;
             case DireccionInclinacion.Arriba:
-                StartCoroutine(ThrowResidue(targetUp, ResidueKind.Vidrio)); break;       // arriba = vidrio
+                StartCoroutine(ThrowResidue(targetUp, kindArriba)); break;
         }
     }
 
@@ -262,10 +312,12 @@ public class ResidueLevelManager : MonoBehaviour
         bool acierto = data.kind == directionKind;
         int delta = acierto ? data.scoreValue : data.penaltyValue;
         score += delta;
+        RegistrarEstadistica(data.kind, acierto, delta);
 
         if (acierto)
         {
             racha++;
+            if (racha > mejorRacha) mejorRacha = racha;
             erroresSeguidos = 0;
             if (victoryManager != null) victoryManager.OnCorrectResidue();
         }
@@ -366,7 +418,9 @@ public class ResidueLevelManager : MonoBehaviour
         {
             case ResidueKind.Papel: return cfPapel;
             case ResidueKind.Vidrio: return cfVidrio;
-            default: return cfPlastico;
+            case ResidueKind.Plastico: return cfPlastico;
+            case ResidueKind.Organico: return cfOrganico;
+            default: return cfPeligroso;
         }
     }
 
@@ -385,13 +439,131 @@ public class ResidueLevelManager : MonoBehaviour
         }
     }
 
+    // ================================================================== sorteo de contenedores
+    void SortearContenedores()
+    {
+        if (contenedorPapel == null || contenedorVidrio == null || contenedorPlastico == null)
+        {
+            Debug.LogWarning("ResidueLevelManager: asigna los contenedores de Papel, Vidrio y Plastico (son los 3 lugares).");
+            ConstruirPool(new List<ResidueKind> { ResidueKind.Papel, ResidueKind.Vidrio, ResidueKind.Plastico });
+            return;
+        }
+
+        // Los 3 lugares: por defecto, donde estan hoy papel (izquierda), vidrio (arriba) y plastico (derecha)
+        Vector3 pIzq = slotIzquierda != null ? slotIzquierda.position : contenedorPapel.rectTransform.position;
+        Vector3 pArr = slotArriba != null ? slotArriba.position : contenedorVidrio.rectTransform.position;
+        Vector3 pDer = slotDerecha != null ? slotDerecha.position : contenedorPlastico.rectTransform.position;
+
+        List<ResidueKind> candidatos = new List<ResidueKind> { ResidueKind.Papel, ResidueKind.Vidrio, ResidueKind.Plastico };
+        if (contenedorOrganico != null) candidatos.Add(ResidueKind.Organico);
+        if (contenedorPeligroso != null) candidatos.Add(ResidueKind.Peligroso);
+
+        List<ResidueKind> elegidos;
+        if (!sortearContenedores || candidatos.Count <= 3)
+            elegidos = new List<ResidueKind> { ResidueKind.Papel, ResidueKind.Vidrio, ResidueKind.Plastico };   // como antes
+        else
+            elegidos = Sortear(candidatos);
+
+        kindIzq = elegidos[0];
+        kindArriba = elegidos[1];
+        kindDer = elegidos[2];
+
+        // Mostrar los elegidos en sus lugares y ocultar el resto
+        AcomodarContenedor(contenedorPapel, ResidueKind.Papel, pIzq, pArr, pDer);
+        AcomodarContenedor(contenedorVidrio, ResidueKind.Vidrio, pIzq, pArr, pDer);
+        AcomodarContenedor(contenedorPlastico, ResidueKind.Plastico, pIzq, pArr, pDer);
+        AcomodarContenedor(contenedorOrganico, ResidueKind.Organico, pIzq, pArr, pDer);
+        AcomodarContenedor(contenedorPeligroso, ResidueKind.Peligroso, pIzq, pArr, pDer);
+
+        ConstruirPool(elegidos);
+    }
+
+    void AcomodarContenedor(Graphic g, ResidueKind tipo, Vector3 pIzq, Vector3 pArr, Vector3 pDer)
+    {
+        if (g == null) return;
+
+        bool usa = tipo == kindIzq || tipo == kindArriba || tipo == kindDer;
+        g.gameObject.SetActive(usa);
+        if (!usa) return;
+
+        // Se coloca por posicion en el mundo: funciona aunque tengan anclas distintas
+        if (tipo == kindIzq) g.rectTransform.position = pIzq;
+        else if (tipo == kindArriba) g.rectTransform.position = pArr;
+        else g.rectTransform.position = pDer;
+    }
+
+    List<ResidueKind> Sortear(List<ResidueKind> candidatos)
+    {
+        List<ResidueKind> resultado = null;
+        string clave = "";
+
+        for (int intento = 0; intento < 6; intento++)
+        {
+            List<ResidueKind> barajado = new List<ResidueKind>(candidatos);
+            for (int i = barajado.Count - 1; i > 0; i--)
+            {
+                int j = Random.Range(0, i + 1);
+                ResidueKind tmp = barajado[i]; barajado[i] = barajado[j]; barajado[j] = tmp;
+            }
+
+            List<ResidueKind> tres = barajado.GetRange(0, 3);
+            List<ResidueKind> ordenados = new List<ResidueKind>(tres);
+            ordenados.Sort();
+
+            clave = string.Join(",", ordenados);
+            resultado = mezclarPosiciones ? tres : ordenados;
+
+            if (!evitarRepetirSorteo || clave != ultimoSorteo) break;
+        }
+
+        ultimoSorteo = clave;
+        return resultado;
+    }
+
+    // Solo salen residuos cuyo contenedor esta en juego (si no, seria imposible acertar)
+    void ConstruirPool(List<ResidueKind> elegidos)
+    {
+        poolActivo.Clear();
+        if (residuePool == null) return;
+
+        foreach (ResidueData r in residuePool)
+            if (r != null && r.prefab != null && elegidos.Contains(r.kind)) poolActivo.Add(r);
+
+        foreach (ResidueKind k in elegidos)
+        {
+            bool hay = false;
+            foreach (ResidueData r in poolActivo) if (r.kind == k) { hay = true; break; }
+            if (!hay) Debug.LogWarning("ResidueLevelManager: no hay ningun ResidueData de tipo " + k + " en 'Residue Pool'.");
+        }
+
+        if (poolActivo.Count == 0)
+        {
+            Debug.LogWarning("ResidueLevelManager: ningun residuo coincide con los contenedores elegidos; se usara todo el pool.");
+            foreach (ResidueData r in residuePool) if (r != null && r.prefab != null) poolActivo.Add(r);
+        }
+    }
+
+    // Permite usar modelos de otros niveles (con Rigidbody / colliders) sin que caigan ni estorben
+    void PrepararPrefab(GameObject go)
+    {
+        foreach (Rigidbody rb in go.GetComponentsInChildren<Rigidbody>())
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+        foreach (Collider c in go.GetComponentsInChildren<Collider>()) c.enabled = false;
+
+        if (go.GetComponent<ResidueSpin>() == null) go.AddComponent<ResidueSpin>();
+    }
+
     // ================================================================== residuos
     void SpawnResidue()
     {
-        if (residuePool == null || residuePool.Length == 0) return;
+        if (poolActivo.Count == 0) return;
 
-        currentResidueData = residuePool[Random.Range(0, residuePool.Length)];
+        currentResidueData = poolActivo[Random.Range(0, poolActivo.Count)];
         currentResidueInstance = Instantiate(currentResidueData.prefab, spawnPoint.position, Quaternion.identity);
+        PrepararPrefab(currentResidueInstance);
 
         Vector3 escalaFinal = currentResidueInstance.transform.localScale * escalaResiduos * currentResidueData.escala;
         listoParaLanzar = false;
@@ -468,16 +640,57 @@ public class ResidueLevelManager : MonoBehaviour
         get { return metaPuntaje; }
     }
 
+    void RegistrarEstadistica(ResidueKind tipo, bool acierto, int delta)
+    {
+        Dictionary<ResidueKind, int> cuenta = acierto ? aciertosTipo : erroresTipo;
+        int actual;
+        cuenta.TryGetValue(tipo, out actual);
+        cuenta[tipo] = actual + 1;
+
+        int pts;
+        puntosTipo.TryGetValue(tipo, out pts);
+        puntosTipo[tipo] = pts + delta;
+    }
+
+    static string NombreTipo(ResidueKind k)
+    {
+        switch (k)
+        {
+            case ResidueKind.Plastico: return "Plástico";
+            case ResidueKind.Organico: return "Orgánico";
+            default: return k.ToString();
+        }
+    }
+
+    // Al terminar el tiempo: pantalla de puntaje (estrellas, resumen por tipo, guardar, ranking)
     void CheckGameOver()
     {
-        if (score >= metaPuntaje)
+        DatosResultado dr = new DatosResultado();
+        dr.nivel = 2;
+        dr.tituloNivel = "Nivel 2 - Clasificación";
+        dr.puntaje = score;
+        dr.meta = metaPuntaje;
+        dr.umbrales = new float[] { 1f, umbralDosEstrellas, umbralTresEstrellas };
+
+        // Cuenta por tipo, solo con los 3 contenedores que tocaron en esta partida
+        ResidueKind[] enJuego = { kindIzq, kindArriba, kindDer };
+        foreach (ResidueKind k in enJuego)
         {
-            if (victoryManager != null) victoryManager.ShowVictoryPanel();
+            int ok, mal, pts;
+            aciertosTipo.TryGetValue(k, out ok);
+            erroresTipo.TryGetValue(k, out mal);
+            puntosTipo.TryGetValue(k, out pts);
+            dr.filas.Add(FilaDetalle.Numero(NombreTipo(k) + "  (" + ok + " bien, " + mal + " mal)", pts, pts > 0 ? "+" : ""));
         }
-        else
+        dr.filas.Add(FilaDetalle.Texto("Mejor racha", mejorRacha >= 2 ? "x" + mejorRacha : "-"));
+
+        dr.permitirGuardar = dr.Estrellas >= 1;
+        if (!string.IsNullOrEmpty(escenaSiguiente))
         {
-            // Cualquier puntaje por debajo de la meta pierde (antes quedaba un hueco entre 1001 y 1049)
-            if (defeatManager != null) defeatManager.CheckForTimeOutDefeat();
+            dr.textoContinuar = "Siguiente nivel";
+            dr.escenaSiguiente = escenaSiguiente;
         }
+
+        PantallaPuntaje.Mostrar(dr);
     }
 }

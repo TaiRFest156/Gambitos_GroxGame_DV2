@@ -39,6 +39,18 @@ public class Nivel3Manager : MonoBehaviour
     [Header("Reglas")]
     public int fusibles = 3;
     public int numeroNivel = 3;
+
+    [Header("Puntaje del nivel")]
+    [Tooltip("Puntaje base: completar el nivel da 1 estrella")]
+    public int meta = 3000;
+    public int puntosPorPedido = 1000;
+    [Tooltip("Maximo por la precision de la prensa en cada pedido")]
+    public int puntosPresion = 500;
+    public int puntosSinErrores = 500;
+    public int puntosPorFusible = 500;
+    [Tooltip("Estrellas: multiplos de la meta")]
+    public float umbralDosEstrellas = 1.35f;
+    public float umbralTresEstrellas = 1.7f;
     public bool vibrar = true;
     public List<Pedido> pedidos = PedidosPorDefecto();
 
@@ -52,7 +64,7 @@ public class Nivel3Manager : MonoBehaviour
     [Header("Escenas (deben estar en Build Settings)")]
     public string escenaDerrota = "Derrota";
     public string escenaSeleccion = "LevelSelector";
-    public string escenaMenu = "Start_Menu";
+    public string escenaMenu = "Menu";
 
     [Header("Sonidos opcionales (si no, se generan solos)")]
     public AudioClip sonidoExito;
@@ -71,6 +83,8 @@ public class Nivel3Manager : MonoBehaviour
     private int fusiblesRestantes;
     private readonly List<float> calidades = new List<float>();
     private bool derrotado;
+    private int erroresPedido;
+    private int pedidosSinErrores;
 
     private Vector3 posRetorno;
     private float yawRetorno;
@@ -193,6 +207,7 @@ public class Nivel3Manager : MonoBehaviour
     private IEnumerator RutaPedido(int i)
     {
         Pedido p = pedidos[i];
+        erroresPedido = 0;
         hud.SetPedido(i + 1, pedidos.Count, p.producto);
         hud.OcultarSimon();
         simon.Preparar(p.colores);
@@ -284,6 +299,7 @@ public class Nivel3Manager : MonoBehaviour
         hud.SetInstruccion("¡La máquina está fabricando tu " + p.producto.ToLowerInvariant() + "!");
         yield return linea.Fabricar(p.tipo, () => Sfx(sonidoDing, ProceduralSfx.Ding()));
         StartCoroutine(AnimarLuces((i + 1f) / pedidos.Count));
+        if (erroresPedido == 0) pedidosSinErrores++;
         yield return hud.MostrarDato(p.producto, p.datoCurioso, 6f);
     }
 
@@ -414,6 +430,7 @@ public class Nivel3Manager : MonoBehaviour
     private IEnumerator PerderFusible(string motivo)
     {
         fusiblesRestantes--;
+        erroresPedido++;
         hud.SetFusibles(fusiblesRestantes, fusibles);
         Sfx(sonidoError, ProceduralSfx.Error());
         Vibrar();
@@ -451,22 +468,29 @@ public class Nivel3Manager : MonoBehaviour
         Sfx(sonidoExito, ProceduralSfx.Exito());
         yield return new WaitForSeconds(0.8f);
 
-        int errores = fusibles - fusiblesRestantes;
         float suma = 0f;
         foreach (float c in calidades) suma += c;
         float precision = calidades.Count > 0 ? suma / calidades.Count : 1f;
 
-        int estrellas = (errores == 0 && precision >= 0.6f) ? 3 : (errores <= 1 ? 2 : 1);
-        LevelStars.Save(numeroNivel, estrellas);
+        int ptsPedidos = pedidos.Count * puntosPorPedido;
+        int ptsPresion = Mathf.RoundToInt(suma * puntosPresion);
+        int ptsSinErrores = pedidosSinErrores * puntosSinErrores;
+        int ptsFusibles = fusiblesRestantes * puntosPorFusible;
 
-        string detalle = "Fusibles: " + fusiblesRestantes + "/" + fusibles +
-                         "     Precisión de la prensa: " + Mathf.RoundToInt(precision * 100f) + "%\n" +
-                         "Nada se desperdicia: ¡eso es economía circular!";
+        DatosResultado dr = new DatosResultado();
+        dr.nivel = numeroNivel;
+        dr.tituloNivel = "Nivel 3 - Planta de procesamiento";
+        dr.puntaje = ptsPedidos + ptsPresion + ptsSinErrores + ptsFusibles;
+        dr.meta = meta;
+        dr.umbrales = new float[] { 1f, umbralDosEstrellas, umbralTresEstrellas };
 
-        hud.MostrarResultado("¡Planta en marcha!", estrellas, detalle,
-            () => { Time.timeScale = 1f; SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); },
-            () => { Time.timeScale = 1f; SceneManager.LoadScene(escenaSeleccion); },
-            () => { Time.timeScale = 1f; SceneManager.LoadScene(escenaMenu); });
+        dr.filas.Add(FilaDetalle.Numero("Pedidos entregados (" + pedidos.Count + ")", ptsPedidos, "+"));
+        dr.filas.Add(FilaDetalle.Numero("Precisión de la prensa (" + Mathf.RoundToInt(precision * 100f) + "%)", ptsPresion, "+"));
+        dr.filas.Add(FilaDetalle.Numero("Pedidos sin errores (" + pedidosSinErrores + ")", ptsSinErrores, "+"));
+        dr.filas.Add(FilaDetalle.Numero("Fusibles restantes (" + fusiblesRestantes + "/" + fusibles + ")", ptsFusibles, "+"));
+        dr.permitirGuardar = true;
+
+        PantallaPuntaje.Mostrar(dr);
     }
 
     // ================================================================== ambiente, guia y sonido

@@ -184,7 +184,7 @@ public class ControlesJugador : MonoBehaviour
 
         bool esc = kb != null && kb.escapeKey.wasPressedThisFrame;
         bool start = gp != null && gp.startButton.wasPressedThisFrame;
-        if ((esc || start) && !ManualSystem.EstaAbierto) AlternarPausa();
+        if ((esc || start) && !ManualSystem.EstaAbierto && !CursorLibreForzado) AlternarPausa();
 
         if (kb != null && kb.mKey.wasPressedThisFrame && Time.timeScale != 0f) ManualSystem.AbrirManual();
     }
