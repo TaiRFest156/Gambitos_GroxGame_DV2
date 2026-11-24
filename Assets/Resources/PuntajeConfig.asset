@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PuntajeConfig
   m_EditorClassIdentifier: Assembly-CSharp::PuntajeConfig
   escenaSeleccion: LevelSelector
-  escenaMenu: Menu
+  escenaMenu: Start_Menu
   fuenteTitulos: {fileID: 0}
   fuenteTextos: {fileID: 0}
   estrellaLlena: {fileID: 0}
