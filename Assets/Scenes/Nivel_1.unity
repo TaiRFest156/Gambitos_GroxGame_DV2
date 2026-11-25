@@ -3312,6 +3312,8 @@ MonoBehaviour:
   tiempoMinimo: 0.4
   reduccionTiempo: 0.01
   duracionSpawner: 30
+  umbralDosEstrellas: 1.5
+  umbralTresEstrellas: 2
   candidatosPorSpawn: 8
   memoriaSpawns: 12
   distanciaMinimaJugador: 2.5
@@ -3444,7 +3446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532e39929b1771740b68ca6c83d52632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlesJugador
-  modo: 2
+  modo: 1
   opacidad: 0.6
   radioStick: 130
   tamanoBotonFuego: 190
@@ -3452,7 +3454,7 @@ MonoBehaviour:
   posicionStick: {x: -260, y: 260}
   posicionFuego: {x: -260, y: 590}
   posicionSalto: {x: -580, y: 270}
-  crearJoystickMovimiento: 0
+  crearJoystickMovimiento: 1
   posicionStickMover: {x: 260, y: 260}
   joystickMovimientoExistente: {fileID: 1731660052}
   bloquearCursor: 1
@@ -4794,12 +4796,12 @@ GameObject:
   - component: {fileID: 1432322047}
   - component: {fileID: 1432322046}
   m_Layer: 5
-  m_Name: MenuPause
+  m_Name: MenuPauseVIEJO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1432322046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5789,7 +5791,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1731660053
 RectTransform:
   m_ObjectHideFlags: 0

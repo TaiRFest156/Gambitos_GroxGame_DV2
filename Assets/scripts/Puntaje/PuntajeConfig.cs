@@ -53,6 +53,25 @@ public class PuntajeConfig : ScriptableObject
     [Range(5, 10)] public int filasVisibles = 10;
     public int maxCaracteresNombre = 12;
 
+    [Header("Pausa y opciones: imagenes (vacio = dibujado por codigo)")]
+    [Tooltip("Imagen del boton de pausa (si la pones, reemplaza al dibujo por defecto)")]
+    public Sprite iconoBotonPausa;
+    public Sprite iconoAltavozActivo;
+    public Sprite iconoAltavozSilenciado;
+    public Sprite fondoSlider;
+    public Sprite rellenoSlider;
+    public Sprite perillaSlider;
+    public Sprite fondoCasilla;
+    public Sprite marcaCasilla;
+
+    [Header("Pausa y opciones: textos")]
+    public string tituloPausa = "EN PAUSA";
+    public string textoContinuar = "Continuar";
+    public string textoReiniciar = "Reiniciar nivel";
+    public string textoOpciones = "Opciones";
+    public string textoSalirMenu = "Salir al menú principal";
+    public string tituloOpciones = "OPCIONES";
+
     private static PuntajeConfig actual;
 
     public static PuntajeConfig Actual

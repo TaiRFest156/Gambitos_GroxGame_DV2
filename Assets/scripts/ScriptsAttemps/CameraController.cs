@@ -143,7 +143,7 @@ public class CameraController : MonoBehaviour
     {
 #if ENABLE_LEGACY_INPUT_MANAGER
         Vector3 g = Input.gyro.rotationRateUnbiased;
-        Vector3 rot = new Vector3(-g.x, -g.y, 0f) * gyroSensitivity;
+        Vector3 rot = new Vector3(-g.x, -g.y, 0f) * gyroSensitivity * ControlSettings.SensibilidadGiro;
 
         // Zona muerta: evita que gire solo
         if (rot.magnitude < 0.02f) rot = Vector3.zero;

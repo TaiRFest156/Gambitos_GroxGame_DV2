@@ -181,6 +181,186 @@ public static class UIPuntaje
         return b;
     }
 
+    // ================================================================== sliders, casillas e iconos
+    public static Slider CrearSlider(string nombre, Transform padre, Vector2 min, Vector2 max, float vmin, float vmax, float valor)
+    {
+        RectTransform rt = Rect(nombre, padre, min, max);
+
+        // Toda la fila recibe el toque
+        Image toque = rt.gameObject.AddComponent<Image>();
+        toque.color = new Color(0f, 0f, 0f, 0f);
+        toque.raycastTarget = true;
+        Slider s = rt.gameObject.AddComponent<Slider>();
+
+        bool propioFondo = C.fondoSlider != null;
+        Image fondo = Img("Fondo", rt, new Vector2(0f, 0.32f), new Vector2(1f, 0.68f),
+                          propioFondo ? Color.white : new Color(1f, 1f, 1f, 0.2f),
+                          propioFondo ? C.fondoSlider : RectRedondeado(), true);
+
+        RectTransform areaRelleno = Rect("AreaRelleno", rt, new Vector2(0f, 0.32f), new Vector2(1f, 0.68f));
+        areaRelleno.offsetMin = new Vector2(26f, 0f);
+        areaRelleno.offsetMax = new Vector2(-26f, 0f);
+        bool propioRelleno = C.rellenoSlider != null;
+        Image relleno = Img("Relleno", areaRelleno, Vector2.zero, new Vector2(0f, 1f),
+                            propioRelleno ? Color.white : C.colorBorde, propioRelleno ? C.rellenoSlider : null, true);
+        relleno.rectTransform.anchorMin = new Vector2(0f, 0f);
+        relleno.rectTransform.anchorMax = new Vector2(0f, 1f);
+        relleno.rectTransform.sizeDelta = new Vector2(10f, 0f);
+
+        RectTransform areaPerilla = Rect("AreaPerilla", rt, Vector2.zero, Vector2.one);
+        areaPerilla.offsetMin = new Vector2(26f, 0f);
+        areaPerilla.offsetMax = new Vector2(-26f, 0f);
+        bool propiaPerilla = C.perillaSlider != null;
+        Image perilla = Img("Perilla", areaPerilla, Vector2.zero, new Vector2(0f, 1f),
+                            propiaPerilla ? Color.white : Color.white, propiaPerilla ? C.perillaSlider : Circulo(), false);
+        perilla.rectTransform.anchorMin = new Vector2(0f, 0.12f);
+        perilla.rectTransform.anchorMax = new Vector2(0f, 0.88f);
+        perilla.rectTransform.sizeDelta = new Vector2(54f, 0f);
+        perilla.preserveAspect = true;
+        perilla.raycastTarget = true;
+
+        s.fillRect = relleno.rectTransform;
+        s.handleRect = perilla.rectTransform;
+        s.targetGraphic = perilla;
+        s.direction = Slider.Direction.LeftToRight;
+        s.minValue = vmin;
+        s.maxValue = vmax;
+        s.wholeNumbers = false;
+        s.SetValueWithoutNotify(valor);
+        return s;
+    }
+
+    public static Toggle CrearCasilla(string nombre, Transform padre, Vector2 min, Vector2 max, bool valor)
+    {
+        RectTransform rt = Rect(nombre, padre, min, max);
+        Image caja = rt.gameObject.AddComponent<Image>();
+        bool propia = C.fondoCasilla != null;
+        caja.sprite = propia ? C.fondoCasilla : RectRedondeado();
+        caja.type = (caja.sprite != null && caja.sprite.border.sqrMagnitude > 0f) ? Image.Type.Sliced : Image.Type.Simple;
+        caja.color = propia ? Color.white : new Color(1f, 1f, 1f, 0.2f);
+        caja.raycastTarget = true;
+
+        bool propiaMarca = C.marcaCasilla != null;
+        Image marca = Img("Marca", rt, new Vector2(0.18f, 0.18f), new Vector2(0.82f, 0.82f),
+                          propiaMarca ? Color.white : C.colorBorde, propiaMarca ? C.marcaCasilla : RectRedondeado(), !propiaMarca);
+
+        Toggle t = rt.gameObject.AddComponent<Toggle>();
+        t.targetGraphic = caja;
+        t.graphic = marca;
+        t.SetIsOnWithoutNotify(valor);
+        t.onValueChanged.AddListener(v => SonarBoton());
+        return t;
+    }
+
+    // Boton cuadrado con un icono adentro (ej. altavoz para silenciar)
+    public static Button BotonIcono(string nombre, Transform padre, Vector2 min, Vector2 max, out Image icono)
+    {
+        RectTransform rt = Rect(nombre, padre, min, max);
+        Image fondo = rt.gameObject.AddComponent<Image>();
+        fondo.sprite = RectRedondeado();
+        fondo.type = Image.Type.Sliced;
+        fondo.color = new Color(1f, 1f, 1f, 0.16f);
+        fondo.raycastTarget = true;
+
+        Button b = rt.gameObject.AddComponent<Button>();
+        b.targetGraphic = fondo;
+        ColorBlock cb = b.colors;
+        cb.highlightedColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+        cb.pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+        cb.selectedColor = Color.white;
+        b.colors = cb;
+        b.onClick.AddListener(SonarBoton);
+
+        icono = Img("Icono", rt, new Vector2(0.12f, 0.12f), new Vector2(0.88f, 0.88f), Color.white, null, false);
+        icono.preserveAspect = true;
+        return b;
+    }
+
+    public static void PonerIconoAltavoz(Image img, bool activo)
+    {
+        Sprite propio = activo ? C.iconoAltavozActivo : C.iconoAltavozSilenciado;
+        if (propio != null) { img.sprite = propio; img.color = Color.white; }
+        else
+        {
+            img.sprite = activo ? AltavozActivo() : AltavozSilenciado();
+            img.color = activo ? Color.white : new Color(1f, 0.45f, 0.45f, 1f);
+        }
+        img.type = Image.Type.Simple;
+        img.preserveAspect = true;
+    }
+
+    private static Sprite sAltavozOn, sAltavozOff;
+
+    private static Sprite AltavozActivo()
+    {
+        if (sAltavozOn == null) sAltavozOn = DibujarAltavoz(true);
+        return sAltavozOn;
+    }
+
+    private static Sprite AltavozSilenciado()
+    {
+        if (sAltavozOff == null) sAltavozOff = DibujarAltavoz(false);
+        return sAltavozOff;
+    }
+
+    // Altavoz dibujado por codigo: cuerpo + cono, y ondas (activo) o una X (silenciado)
+    private static Sprite DibujarAltavoz(bool activo)
+    {
+        const int n = 128;
+        Color32[] col = new Color32[n * n];
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++)
+            {
+                int hits = 0;
+                for (int sy = 0; sy < 2; sy++)
+                    for (int sx = 0; sx < 2; sx++)
+                    {
+                        Vector2 p = new Vector2((x + (sx + 0.5f) / 2f) / n, (y + (sy + 0.5f) / 2f) / n);
+                        if (PuntoAltavoz(p, activo)) hits++;
+                    }
+                col[y * n + x] = new Color32(255, 255, 255, (byte)(hits * 255 / 4));
+            }
+        return Crear(col, n, Vector4.zero);
+    }
+
+    private static bool PuntoAltavoz(Vector2 p, bool activo)
+    {
+        // cuerpo
+        if (p.x >= 0.10f && p.x <= 0.28f && p.y >= 0.38f && p.y <= 0.62f) return true;
+        // cono (trapecio)
+        if (p.x > 0.28f && p.x <= 0.50f)
+        {
+            float t = (p.x - 0.28f) / 0.22f;
+            float mitad = Mathf.Lerp(0.12f, 0.30f, t);
+            if (Mathf.Abs(p.y - 0.5f) <= mitad) return true;
+        }
+
+        if (activo)
+        {
+            Vector2 d = p - new Vector2(0.50f, 0.5f);
+            float r = d.magnitude;
+            float ang = Mathf.Abs(Mathf.Atan2(d.y, d.x)) * Mathf.Rad2Deg;
+            if (d.x > 0f && ang < 48f)
+            {
+                if (Mathf.Abs(r - 0.22f) < 0.03f) return true;
+                if (Mathf.Abs(r - 0.36f) < 0.03f) return true;
+            }
+        }
+        else
+        {
+            if (DistSegmento(p, new Vector2(0.62f, 0.34f), new Vector2(0.90f, 0.66f)) < 0.035f) return true;
+            if (DistSegmento(p, new Vector2(0.62f, 0.66f), new Vector2(0.90f, 0.34f)) < 0.035f) return true;
+        }
+        return false;
+    }
+
+    private static float DistSegmento(Vector2 p, Vector2 a, Vector2 b)
+    {
+        Vector2 ab = b - a;
+        float t = Mathf.Clamp01(Vector2.Dot(p - a, ab) / ab.sqrMagnitude);
+        return (p - (a + ab * t)).magnitude;
+    }
+
     // ================================================================== estrellas
     public static void PonerEstrella(Image img, bool llena)
     {

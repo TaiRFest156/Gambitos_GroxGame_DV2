@@ -51,7 +51,12 @@ public class Nivel1Audio : MonoBehaviour
             voces[i].spatialBlend = 0f;
         }
 
-        ambiente = gameObject.AddComponent<AudioSource>();
+        // El ambiente va en su propio objeto para que las Opciones no lo escalen dos veces
+        GameObject ambGO = new GameObject("AmbienteContaminacion");
+        ambGO.transform.SetParent(transform, false);
+        CategoriaAudio cat = ambGO.AddComponent<CategoriaAudio>();
+        cat.ignorar = true;
+        ambiente = ambGO.AddComponent<AudioSource>();
         ambiente.playOnAwake = false;
         ambiente.loop = true;
         ambiente.spatialBlend = 0f;
@@ -99,7 +104,7 @@ public class Nivel1Audio : MonoBehaviour
             }
         }
 
-        float v = Mathf.Clamp01(n) * volumenAmbienteMaximo;
+        float v = Mathf.Clamp01(n) * volumenAmbienteMaximo * OpcionesJuego.MultiplicadorEfectos;
         ambiente.volume = v;
         if (v > 0.01f && !ambiente.isPlaying) ambiente.Play();
         else if (v <= 0.01f && ambiente.isPlaying) ambiente.Stop();

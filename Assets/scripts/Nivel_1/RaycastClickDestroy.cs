@@ -25,9 +25,9 @@ public class RaycastClickDestroy : MonoBehaviour
         // ---- Orden de disparar (movil: boton FUEGO o toque corto; PC: clic izquierdo; mando: gatillo derecho)
         bool disparo = ControlesJugador.ConsumirDisparo();
 
-        Mouse mouse = Mouse.current;
-        if (!disparo && mouse != null && ControlesJugador.UsaRaton && ControlesJugador.CursorBloqueado
-            && Time.frameCount != ControlesJugador.FrameUltimoBloqueo && mouse.leftButton.wasPressedThisFrame)
+        // PC: boton de disparo configurable en Opciones (clic izquierdo por defecto)
+        if (!disparo && ControlesJugador.UsaRaton && ControlesJugador.CursorBloqueado
+            && Time.frameCount != ControlesJugador.FrameUltimoBloqueo && TeclasJuego.PulsadaEsteFrame(AccionTecla.Disparar))
             disparo = true;
 
         Gamepad gamepad = Gamepad.current;

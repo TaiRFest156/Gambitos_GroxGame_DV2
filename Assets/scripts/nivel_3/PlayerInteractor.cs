@@ -27,7 +27,7 @@ public class PlayerInteractor : MonoBehaviour
         if (mostrarTeclaEnBoton && ControlesJugador.PCActivo && !ControlesJugador.TactilActivo)
         {
             TMP_Text txt = interactButton.GetComponentInChildren<TMP_Text>(true);
-            if (txt != null) txt.text = "Interactuar [E]";
+            if (txt != null) txt.text = "Interactuar [" + TeclasJuego.Nombre(TeclasJuego.Obtener(AccionTecla.Interactuar)) + "]";
         }
     }
 
@@ -49,9 +49,8 @@ public class PlayerInteractor : MonoBehaviour
         // PC / mando: E o boton X
         if (current != null && !ControlesJugador.CursorLibreForzado)
         {
-            Keyboard kb = Keyboard.current;
             Gamepad gp = Gamepad.current;
-            bool pedido = (kb != null && kb.eKey.wasPressedThisFrame) || (gp != null && gp.buttonWest.wasPressedThisFrame);
+            bool pedido = TeclasJuego.PulsadaEsteFrame(AccionTecla.Interactuar) || (gp != null && gp.buttonWest.wasPressedThisFrame);
             if (pedido) current.Interact();
         }
     }

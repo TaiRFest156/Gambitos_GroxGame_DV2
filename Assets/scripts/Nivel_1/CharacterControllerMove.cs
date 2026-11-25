@@ -127,11 +127,12 @@ public class CharacterControllerMove : MonoBehaviour
         Keyboard kb = Keyboard.current;
         if (kb != null)
         {
-            if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) v.x += 1f;
-            if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) v.x -= 1f;
-            if (kb.wKey.isPressed || kb.upArrowKey.isPressed) v.y += 1f;
-            if (kb.sKey.isPressed || kb.downArrowKey.isPressed) v.y -= 1f;
-            if (kb.leftShiftKey.isPressed) correr = true;
+            // Teclas configurables en Opciones (las flechas siempre funcionan)
+            if (TeclasJuego.Presionada(AccionTecla.Derecha) || kb.rightArrowKey.isPressed) v.x += 1f;
+            if (TeclasJuego.Presionada(AccionTecla.Izquierda) || kb.leftArrowKey.isPressed) v.x -= 1f;
+            if (TeclasJuego.Presionada(AccionTecla.Adelante) || kb.upArrowKey.isPressed) v.y += 1f;
+            if (TeclasJuego.Presionada(AccionTecla.Atras) || kb.downArrowKey.isPressed) v.y -= 1f;
+            if (TeclasJuego.Presionada(AccionTecla.Correr)) correr = true;
         }
 
         // Mando
@@ -160,12 +161,8 @@ public class CharacterControllerMove : MonoBehaviour
             return;
         }
 
-        Keyboard kb = Keyboard.current;
-        if (kb != null)
-        {
-            if (kb.spaceKey.wasPressedThisFrame) pulsado = true;
-            if (kb.spaceKey.isPressed) mantenido = true;
-        }
+        if (TeclasJuego.PulsadaEsteFrame(AccionTecla.Saltar)) pulsado = true;
+        if (TeclasJuego.Presionada(AccionTecla.Saltar)) mantenido = true;
 
         Gamepad gp = Gamepad.current;
         if (gp != null)
