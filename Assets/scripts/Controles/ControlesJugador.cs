@@ -141,6 +141,7 @@ public class ControlesJugador : MonoBehaviour
 
         AsegurarEventSystem();
         ConstruirVisuales();
+        SistemaPausa.Asegurar();   // boton y menu de pausa (iguales en todos los niveles)
     }
 
     private void OnDestroy()
@@ -179,28 +180,9 @@ public class ControlesJugador : MonoBehaviour
     // ================================================================== PC: atajos y cursor
     private void AtajosPC()
     {
-        Keyboard kb = Keyboard.current;
-        Gamepad gp = Gamepad.current;
-
-        bool esc = kb != null && kb.escapeKey.wasPressedThisFrame;
-        bool start = gp != null && gp.startButton.wasPressedThisFrame;
-        if ((esc || start) && !ManualSystem.EstaAbierto && !CursorLibreForzado) AlternarPausa();
-
-        if (kb != null && kb.mKey.wasPressedThisFrame && Time.timeScale != 0f) ManualSystem.AbrirManual();
-    }
-
-    private void AlternarPausa()
-    {
-        PauseMenu pm = FindFirstObjectByType<PauseMenu>();
-        if (pm != null && pm.PausePanel != null)
-        {
-            if (pm.PausePanel.activeSelf) pm.Continue();
-            else pm.Pause();
-        }
-        else
-        {
-            cursorLibreUsuario = !cursorLibreUsuario;   // sin menu de pausa: Esc libera/captura el cursor
-        }
+        // La pausa (Esc / Start) la maneja SistemaPausa. Aqui solo el atajo del manual (tecla configurable).
+        if (TeclasJuego.PulsadaEsteFrame(AccionTecla.Manual) && Time.timeScale != 0f && !CursorLibreForzado)
+            ManualSystem.AbrirManual();
     }
 
     private void ActualizarCursor()
@@ -387,7 +369,7 @@ public class ControlesJugador : MonoBehaviour
 
     private Vector2 LimitarABase(Vector2 p)
     {
-        float r = radioStick * ScaleFactor();
+        float r = RadioActual * ScaleFactor();
         p.x = Mathf.Clamp(p.x, r, Screen.width - r);
         p.y = Mathf.Clamp(p.y, r, Screen.height - r);
         return p;
@@ -395,7 +377,7 @@ public class ControlesJugador : MonoBehaviour
 
     private Vector2 VectorStick(Dedo d)
     {
-        float r = Mathf.Max(1f, radioStick * ScaleFactor());
+        float r = Mathf.Max(1f, RadioActual * ScaleFactor());
         Vector2 v = (d.pos - d.base0) / r;
         if (v.magnitude > 1f) v.Normalize();
 
@@ -404,6 +386,9 @@ public class ControlesJugador : MonoBehaviour
         if (m < zona) return Vector2.zero;
         return v.normalized * ((m - zona) / (1f - zona));
     }
+
+    // radio del joystick segun el tamano elegido en Opciones
+    private float RadioActual { get { return radioStick * ControlSettings.EscalaControles; } }
 
     private float ScaleFactor()
     {
@@ -571,7 +556,7 @@ public class ControlesJugador : MonoBehaviour
         if (!tactil) return;
 
         Rect r = canvasRT.rect;
-        float a = opacidad;
+        float a = ControlSettings.OpacidadControles;
 
         // ---- joystick de camara
         bool verStick = ControlSettings.Modo == ModoCamara.Joystick;
@@ -579,7 +564,8 @@ public class ControlesJugador : MonoBehaviour
         stickKnob.gameObject.SetActive(verStick);
         if (verStick)
         {
-            Vector2 reposo = new Vector2(r.width * 0.5f + posicionStick.x, -r.height * 0.5f + posicionStick.y);
+            Vector2 posGuardada = ControlSettings.PosStick(posicionStick);
+            Vector2 reposo = new Vector2(r.width * 0.5f + posGuardada.x, -r.height * 0.5f + posGuardada.y);
             Dedo d = DedoConRol(Rol.Stick);
             DibujarStick(stickBase, stickKnob, d, MirarVirtual, reposo, a);
         }
@@ -594,7 +580,13 @@ public class ControlesJugador : MonoBehaviour
             DibujarStick(moverBase, moverKnob, d, MoverVirtual, reposo, a);
         }
 
-        // ---- botones
+        // ---- botones: tamano y posicion guardados en Opciones
+        float esc = ControlSettings.EscalaControles;
+        fuegoRT.anchoredPosition = ControlSettings.PosFuego(posicionFuego);
+        fuegoRT.sizeDelta = Vector2.one * tamanoBotonFuego * esc;
+        saltoRT.anchoredPosition = ControlSettings.PosSalto(posicionSalto);
+        saltoRT.sizeDelta = Vector2.one * tamanoBotonSalto * esc;
+
         bool fuegoPresionado = DedoConRol(Rol.Fuego) != null;
         bool saltoPresionado = DedoConRol(Rol.Salto) != null;
         fuegoRT.localScale = Vector3.one * (fuegoPresionado ? 0.9f : 1f);
@@ -614,13 +606,13 @@ public class ControlesJugador : MonoBehaviour
     {
         RectTransform brt = bas.rectTransform;
         RectTransform krt = knob.rectTransform;
-        brt.sizeDelta = new Vector2(radioStick * 2f, radioStick * 2f);
+        brt.sizeDelta = new Vector2(RadioActual * 2f, RadioActual * 2f);
 
         if (d != null)
         {
             Vector2 centro = Local(d.base0);
             brt.anchoredPosition = centro;
-            krt.anchoredPosition = centro + valor * radioStick;
+            krt.anchoredPosition = centro + valor * RadioActual;
             bas.color = new Color(1f, 1f, 1f, a * 0.5f);
             knob.color = new Color(1f, 1f, 1f, a);
         }
@@ -634,7 +626,7 @@ public class ControlesJugador : MonoBehaviour
     }
 
     // ------------------------------------------------------------------ sprites generados por codigo
-    private static Sprite SpriteDisco()
+    public static Sprite SpriteDisco()
     {
         if (sDisco != null) return sDisco;
         const int n = 64;
@@ -651,7 +643,7 @@ public class ControlesJugador : MonoBehaviour
         return sDisco;
     }
 
-    private static Sprite SpriteAnillo()
+    public static Sprite SpriteAnillo()
     {
         if (sAnillo != null) return sAnillo;
         const int n = 128;
@@ -669,7 +661,7 @@ public class ControlesJugador : MonoBehaviour
         return sAnillo;
     }
 
-    private static Sprite SpriteTriangulo()
+    public static Sprite SpriteTriangulo()
     {
         if (sTriangulo != null) return sTriangulo;
         const int n = 128;

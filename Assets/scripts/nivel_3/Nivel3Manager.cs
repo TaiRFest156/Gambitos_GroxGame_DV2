@@ -508,7 +508,7 @@ public class Nivel3Manager : MonoBehaviour
     private void Vibrar()
     {
 #if UNITY_ANDROID || UNITY_IOS
-        if (vibrar) Handheld.Vibrate();
+        if (vibrar && OpcionesJuego.Vibrar) Handheld.Vibrate();
 #endif
     }
 

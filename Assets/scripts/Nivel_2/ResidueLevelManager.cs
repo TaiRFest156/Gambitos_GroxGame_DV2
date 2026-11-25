@@ -129,6 +129,7 @@ public class ResidueLevelManager : MonoBehaviour
         Input.gyro.enabled = true;
         timeRemaining = levelDuration;
         Time.timeScale = 1f;
+        SistemaPausa.Asegurar();   // boton y menu de pausa (iguales en todos los niveles)
 
         if (victoryManager == null) victoryManager = Object.FindFirstObjectByType<VictoryManager>();
         if (defeatManager == null) defeatManager = Object.FindFirstObjectByType<DefeatManager>();
@@ -229,9 +230,9 @@ public class ResidueLevelManager : MonoBehaviour
         // Teclado (para probar en el editor)
         if (dir == DireccionInclinacion.Ninguna)
         {
-            if (Input.GetKeyDown(KeyCode.A)) dir = DireccionInclinacion.Izquierda;
-            else if (Input.GetKeyDown(KeyCode.W)) dir = DireccionInclinacion.Arriba;
-            else if (Input.GetKeyDown(KeyCode.D)) dir = DireccionInclinacion.Derecha;
+            if (TeclasJuego.PulsadaEsteFrame(AccionTecla.ContenedorIzquierda)) dir = DireccionInclinacion.Izquierda;
+            else if (TeclasJuego.PulsadaEsteFrame(AccionTecla.ContenedorArriba)) dir = DireccionInclinacion.Arriba;
+            else if (TeclasJuego.PulsadaEsteFrame(AccionTecla.ContenedorDerecha)) dir = DireccionInclinacion.Derecha;
         }
 
         if (dir != DireccionInclinacion.Ninguna) Lanzar(dir);
