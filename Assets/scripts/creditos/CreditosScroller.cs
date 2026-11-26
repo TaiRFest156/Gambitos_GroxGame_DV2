@@ -8,7 +8,7 @@ public class CreditosScroller : MonoBehaviour
 {
     [SerializeField] private RectTransform texto;
     [SerializeField] private CanvasGroup overlay;
-    [SerializeField] private string menuPrincipal = "MenuPrincipal";
+    [SerializeField] private string menuPrincipal = "Start_Menu";
     [SerializeField] private float velocidad = 60f;
     [SerializeField] private float multiplicadorRapido = 4f;
     [SerializeField] private float suavizado = 8f;
@@ -69,6 +69,6 @@ public class CreditosScroller : MonoBehaviour
     }
     public void Salir()
     {
-        SceneManager.LoadScene(menuPrincipal);
+        SceneManager.LoadScene("Start_Menu");
     }
 }
