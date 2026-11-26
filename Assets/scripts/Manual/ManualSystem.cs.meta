@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: 46249130ecea70f4eaeb94bb5096d6cd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - datos: {instanceID: 0}
+  - botonManual: {instanceID: 0}
+  - iconoBoton: {instanceID: 0}
+  - fuente: {instanceID: 0}
+  - sonidoAbrir: {instanceID: 0}
+  - sonidoPagina: {instanceID: 0}
+  - sonidoIntro: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -843,10 +843,10 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0
   m_Url: 
   m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
+  m_DirectAudioMutes: 01
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
@@ -1765,10 +1765,10 @@ VideoPlayer:
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
-  - 1
+  - 0
   m_Url: 
   m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
+  m_DirectAudioMutes: 01
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
@@ -1816,8 +1816,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Puntos
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
+  m_sharedMaterial: {fileID: 6498093147943230159, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1959,7 +1959,7 @@ MonoBehaviour:
   colorPapel: {r: 1, g: 0.95686275, b: 0.8627451, a: 1}
   colorTexto: {r: 0.16862746, g: 0.14509805, b: 0.2509804, a: 1}
   colorAcentoPapel: {r: 0.05490196, g: 0.62352943, b: 0.46666667, a: 1}
-  fuente: {fileID: 0}
+  fuente: {fileID: 11400000, guid: 1c23b8b2576593a48a9a110b8ba1b863, type: 2}
   duracionVolteo: 0.45
   ordenCanvas: 500
   sonidoAbrir: {fileID: 0}
@@ -2018,10 +2018,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TIME
+  m_text: "Prep\xE1rate..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
+  m_sharedMaterial: {fileID: 6498093147943230159, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3304,11 +3304,11 @@ MonoBehaviour:
   - {fileID: 886454491337924817, guid: 4ad381d7bc009f340abe5fcf9f99c923, type: 3}
   pesosPrefabs: 
   minX: -3.55
-  maxX: 4.64
+  maxX: 20.3
   minZ: 12.02
-  maxZ: 22.09
+  maxZ: 40.1
   spawnY: 11.85
-  tiempoInicial: 3
+  tiempoInicial: 1
   tiempoMinimo: 0.4
   reduccionTiempo: 0.01
   duracionSpawner: 30
@@ -3588,8 +3588,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
+  m_sharedMaterial: {fileID: 6498093147943230159, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4557,8 +4557,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
+  m_sharedMaterial: {fileID: 6498093147943230159, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6405,6 +6405,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: houseAll
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f0b5ce3507cc67b499df89d5e17cc6a5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3787636892266962501, guid: f0b5ce3507cc67b499df89d5e17cc6a5, type: 3}
       propertyPath: m_Name
       value: houseeFinal
@@ -6629,6 +6633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942942364}
   - component: {fileID: 1942942363}
+  - component: {fileID: 1942942365}
   m_Layer: 0
   m_Name: Nivel1Sistema
   m_TagString: Untagged
@@ -6698,6 +6703,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942942365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942942362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881b68fbc827fb74988ac5d60f9036e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel1HUD
+  anclaContaminacion: {x: 0.5, y: 1}
+  offsetContaminacion: {x: 0, y: -175}
+  anclaEnergia: {x: 0.5, y: 0}
+  offsetEnergia: {x: 0, y: 75}
+  anclaCombo: {x: 1, y: 0.5}
+  offsetCombo: {x: -230, y: 150}
+  punteroExistente: {fileID: 0}
+  colorPanel: {r: 0.09411765, g: 0.10980392, b: 0.20392157, a: 0.9019608}
+  colorBorde: {r: 0.18039216, g: 0.9019608, b: 0.6509804, a: 1}
+  colorOro: {r: 1, g: 0.8392157, b: 0.039215688, a: 1}
+  fuente: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
 --- !u!1 &1983141772 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 733e74d090021cc46a46d8fe645fc3a8, type: 3}
@@ -7079,12 +7107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Nivel1Audio
   disparo: {fileID: 0}
   captura: {fileID: 0}
-  fallo: {fileID: 0}
+  fallo: {fileID: 8300000, guid: c5c86eb4c356656479c2661c218c8e7b, type: 3}
   fueraDeRango: {fileID: 0}
   sinEnergia: {fileID: 0}
   recarga: {fileID: 0}
   suelo: {fileID: 0}
-  alerta: {fileID: 0}
+  alerta: {fileID: 8300000, guid: 05b045b8713fef945a2a389da5e08c7d, type: 3}
   combo: {fileID: 0}
   comboRoto: {fileID: 0}
   orbeAparece: {fileID: 0}
