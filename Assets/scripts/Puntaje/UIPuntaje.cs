@@ -57,8 +57,9 @@ public static class UIPuntaje
         if (f == null) f = titulo ? C.fuenteTextos : C.fuenteTitulos;
         if (f != null) t.font = f;
         t.enableAutoSizing = true;
-        t.fontSizeMin = tMin;
-        t.fontSizeMax = tMax;
+        float escala = Mathf.Max(0.1f, titulo ? C.escalaTitulos : C.escalaTextos);
+        t.fontSizeMin = tMin * escala;
+        t.fontSizeMax = tMax * escala;
         t.fontStyle = estilo;
         t.alignment = alin;
         t.color = color;
@@ -72,14 +73,31 @@ public static class UIPuntaje
     {
         if (C.fondoPanel != null)
         {
-            Image personal = Img(nombre, padre, min, max, Color.white, C.fondoPanel, true);
-            personal.raycastTarget = true;   // tapa lo que hay detras
+            if (!C.rellenoOpacoPaneles)
+            {
+                Image sinRelleno = Img(nombre, padre, min, max, Color.white, C.fondoPanel, true);
+                sinRelleno.raycastTarget = true;   // tapa lo que hay detras
+                return sinRelleno.rectTransform;
+            }
+
+            // El nombre "_Marco" hace que RaizDe() oculte todo junto (relleno + tu imagen)
+            RectTransform raiz = Rect(nombre + "_Marco", padre, min, max);
+
+            Image relleno = Img("Relleno", raiz, Vector2.zero, Vector2.one,
+                                new Color(C.colorRellenoPanel.r, C.colorRellenoPanel.g, C.colorRellenoPanel.b, 1f),
+                                FormaVentana(C.margenRellenoPanel), true);
+            relleno.raycastTarget = true;   // tapa los toques de lo que hay detras
+            relleno.rectTransform.offsetMin = new Vector2(C.margenRellenoPanel, C.margenRellenoPanel);
+            relleno.rectTransform.offsetMax = new Vector2(-C.margenRellenoPanel, -C.margenRellenoPanel);
+
+            Image personal = Img(nombre, raiz, Vector2.zero, Vector2.one, Color.white, C.fondoPanel, true);
+            personal.raycastTarget = false;
             return personal.rectTransform;
         }
 
-        Image marco = Img(nombre + "_Marco", padre, min, max, C.colorBorde, RectRedondeado(), true);
+        Image marco = Img(nombre + "_Marco", padre, min, max, C.colorBorde, FormaVentana(0f), true);
         marco.raycastTarget = true;
-        Image interior = Img(nombre, marco.transform, Vector2.zero, Vector2.one, C.colorPanel, RectRedondeado(), true);
+        Image interior = Img(nombre, marco.transform, Vector2.zero, Vector2.one, C.colorPanel, FormaVentana(grosor), true);
         interior.rectTransform.offsetMin = new Vector2(grosor, grosor);
         interior.rectTransform.offsetMax = new Vector2(-grosor, -grosor);
         return interior.rectTransform;
@@ -89,6 +107,7 @@ public static class UIPuntaje
     public static Button Boton(string nombre, string texto, Transform padre, Vector2 min, Vector2 max, TipoBoton tipo)
     {
         RectTransform rt = Rect(nombre, padre, min, max);
+        rt.gameObject.AddComponent<GroxNoButtonSfx>();   // este boton ya hace su propio clic (SonarBoton)
         Image img = rt.gameObject.AddComponent<Image>();
         img.raycastTarget = true;
 
@@ -97,7 +116,10 @@ public static class UIPuntaje
         switch (tipo)
         {
             case TipoBoton.Secundario: baseColor = C.colorBotonSecundario; personal = C.fondoBotonSecundario; break;
-            case TipoBoton.Advertencia: baseColor = C.colorBotonAdvertencia; personal = C.fondoBotonPrimario; break;
+            case TipoBoton.Advertencia:
+                baseColor = C.colorBotonAdvertencia;
+                personal = C.fondoBotonAdvertencia != null ? C.fondoBotonAdvertencia : C.fondoBotonPrimario;
+                break;
             default: baseColor = C.colorBotonPrimario; personal = C.fondoBotonPrimario; break;
         }
 
@@ -106,7 +128,9 @@ public static class UIPuntaje
         {
             img.sprite = personal;
             img.type = personal.border.sqrMagnitude > 0f ? Image.Type.Sliced : Image.Type.Simple;
-            img.color = Color.white;                 // se ve tu imagen tal cual
+            // Tu imagen se ve tal cual (blanco = sin tinte). Cambia estos colores en PuntajeConfig si quieres teñirla.
+            img.color = tipo == TipoBoton.Advertencia ? C.tinteImagenAdvertencia
+                      : tipo == TipoBoton.Secundario ? C.tinteImagenSecundario : C.tinteImagenPrimario;
             colorTexto = C.colorTextoBoton;
         }
         else
@@ -132,6 +156,8 @@ public static class UIPuntaje
                                   TextAlignmentOptions.Center, colorTexto, true);
         t.rectTransform.offsetMin = new Vector2(10f, 4f);
         t.rectTransform.offsetMax = new Vector2(-10f, -4f);
+        t.fontSizeMin = 16f * Mathf.Max(0.1f, C.escalaBotones);   // el texto del boton usa su propia escala
+        t.fontSizeMax = 40f * Mathf.Max(0.1f, C.escalaBotones);
         t.text = texto;
         return b;
     }
@@ -149,6 +175,7 @@ public static class UIPuntaje
         rt.pivot = new Vector2(1f, 1f);
         rt.sizeDelta = new Vector2(84f, 84f);
         rt.anchoredPosition = new Vector2(-14f, -14f);
+        rt.gameObject.AddComponent<GroxNoButtonSfx>();
 
         Image img = rt.gameObject.AddComponent<Image>();
         img.raycastTarget = true;
@@ -233,6 +260,7 @@ public static class UIPuntaje
     public static Toggle CrearCasilla(string nombre, Transform padre, Vector2 min, Vector2 max, bool valor)
     {
         RectTransform rt = Rect(nombre, padre, min, max);
+        rt.gameObject.AddComponent<GroxNoButtonSfx>();
         Image caja = rt.gameObject.AddComponent<Image>();
         bool propia = C.fondoCasilla != null;
         caja.sprite = propia ? C.fondoCasilla : RectRedondeado();
@@ -256,6 +284,7 @@ public static class UIPuntaje
     public static Button BotonIcono(string nombre, Transform padre, Vector2 min, Vector2 max, out Image icono)
     {
         RectTransform rt = Rect(nombre, padre, min, max);
+        rt.gameObject.AddComponent<GroxNoButtonSfx>();
         Image fondo = rt.gameObject.AddComponent<Image>();
         fondo.sprite = RectRedondeado();
         fondo.type = Image.Type.Sliced;
@@ -395,9 +424,56 @@ public static class UIPuntaje
         audioSrc.PlayOneShot(clip, vol);
     }
 
+    // Clic de los botones. Orden: tu sonido en PuntajeConfig.sonidoBoton > el sonido UiClick de GroxAudioConfig > clic generado.
     public static void SonarBoton()
     {
-        Sonar(C.sonidoBoton, ProceduralSfx.Nota(3), 1.2f, 0.5f);
+        if (C.sonidoBoton != null) { Sonar(C.sonidoBoton, null, 1f, 0.5f); return; }
+        if (GroxAudio.Instance != null) { GroxAudio.Sfx(GroxSfx.UiClick); return; }
+        Sonar(null, ProceduralSfx.Nota(3), 1.2f, 0.5f);
+    }
+
+    // ================================================================== forma de las ventanas
+    // Forma de TODAS las ventanas (pausa, opciones, puntaje, confirmacion) cuando no usas imagen propia.
+    // Se cambia en PuntajeConfig > "Forma de las ventanas". 'inset' = lo que se mete hacia adentro
+    // (para el interior del borde), asi el grosor del borde queda parejo tambien en las diagonales.
+    private static readonly System.Collections.Generic.Dictionary<string, Sprite> formas =
+        new System.Collections.Generic.Dictionary<string, Sprite>();
+
+    public static Sprite FormaVentana(float inset)
+    {
+        PuntajeConfig c = C;
+        if (c.esquinasRedondeadas) return RectRedondeado();
+
+        // Una diagonal metida 'inset' px hacia adentro necesita un corte (2 - raiz2) * inset mas chico
+        float corte = Mathf.Max(0f, c.tamanoCorte - (2f - Mathf.Sqrt(2f)) * inset);
+        int k = Mathf.RoundToInt(corte);
+        bool tl = c.cortarArribaIzquierda, tr = c.cortarArribaDerecha;
+        bool bl = c.cortarAbajoIzquierda, br = c.cortarAbajoDerecha;
+
+        string clave = k + "|" + tl + tr + bl + br;
+        Sprite hecho;
+        if (formas.TryGetValue(clave, out hecho) && hecho != null) return hecho;
+
+        int n = Mathf.Max(16, 2 * k + 8);
+        Color32[] px = new Color32[n * n];
+        for (int y = 0; y < n; y++)
+            for (int x = 0; x < n; x++)
+            {
+                float xl = x + 0.5f;            // distancia al borde izquierdo
+                float xr = n - (x + 0.5f);      // ... derecho
+                float yb = y + 0.5f;            // ... inferior (en Unity y=0 es abajo)
+                float yt = n - (y + 0.5f);      // ... superior
+                float a = 1f;
+                if (tl) a = Mathf.Min(a, Mathf.Clamp01((xl + yt - k) / 1.4142f + 0.5f));
+                if (tr) a = Mathf.Min(a, Mathf.Clamp01((xr + yt - k) / 1.4142f + 0.5f));
+                if (bl) a = Mathf.Min(a, Mathf.Clamp01((xl + yb - k) / 1.4142f + 0.5f));
+                if (br) a = Mathf.Min(a, Mathf.Clamp01((xr + yb - k) / 1.4142f + 0.5f));
+                px[y * n + x] = new Color32(255, 255, 255, (byte)(a * 255f));
+            }
+
+        Sprite sp = Crear(px, n, new Vector4(k, k, k, k));
+        formas[clave] = sp;
+        return sp;
     }
 
     // ================================================================== sprites dibujados por codigo

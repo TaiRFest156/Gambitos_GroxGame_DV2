@@ -1,0 +1,341 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd8f0d64e1569544ab9478036ce6f3e, type: 3}
+  m_Name: GroxAudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::GroxAudioConfig
+  music:
+  - name: Menu
+    scenes:
+    - Start_Menu
+    - LevelSelector
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 8300000, guid: 373a2dc158ba81b499f8b714f7b5f1a1, type: 3}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Loading
+    scenes:
+    - LoadingScene
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Nivel 1
+    scenes:
+    - Nivel_1
+    - Nivel1
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 8300000, guid: 099008588219d9045af6b53c139e852c, type: 3}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Tension
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.45
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Climax
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.8
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Nivel 2
+    scenes:
+    - Nivel_2
+    - testNivel2
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 8300000, guid: bc61551ad688de347a4eda16c865c364, type: 3}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Tension
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.45
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Climax
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.8
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Nivel 3
+    scenes:
+    - Nivel_3
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Tension
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.45
+        leaveAt: 1
+        fadeSeconds: 1.5
+      - name: Climax
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0.8
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Derrota
+    scenes:
+    - Derrota
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  - name: Creditos
+    scenes:
+    - Creditos
+    bpm: 120
+    beatsPerBar: 4
+    volume: 1
+    baseIntensity: 0
+    sections:
+    - name: Main
+      layers:
+      - name: Base
+        clip: {fileID: 0}
+        volume: 1
+        enterAt: 0
+        leaveAt: 1
+        fadeSeconds: 1.5
+      minIntensity: 0
+      maxIntensity: 1
+      repeats: 1
+      isIntro: 0
+  sfx:
+  - id: 0
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 1
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 2
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 3
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 4
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 5
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 6
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 7
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 8
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 9
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 10
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 11
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 12
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 13
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 14
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 15
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 16
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 17
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 18
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 19
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 20
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 21
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 22
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 23
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 24
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  - id: 25
+    clips: []
+    volume: 1
+    pitch: {x: 0.97, y: 1.03}
+    cooldown: 0.05
+  ambienceLoop: {fileID: 0}
+  manualIntro: {fileID: 0}
+  simonNotes: []
+  quantize: 0
+  crossfadeSeconds: 2.5
+  maxWaitSeconds: 2
+  firstFadeInSeconds: 1.2
+  keepMusicIfSceneHasNone: 1
+  duckOnPause: 1
+  pauseDuck: 0.45
+  autoIntensityFromLevels: 1
+  autoButtonSounds: 1
+  autoWireExistingSounds: 1
+  defaultMaster: 1
+  defaultMusic: 0.8
+  defaultSfx: 1

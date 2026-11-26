@@ -97,6 +97,7 @@ public class ManualSystem : MonoBehaviour
     private RectTransform introBanner;
 
     private RectTransform botonRT;
+    private bool botonPropio;   // true = el boton lo creo este script
     private Vector3 botonEscalaOriginal = Vector3.one;
     private Image halo;
 
@@ -147,6 +148,13 @@ public class ManualSystem : MonoBehaviour
     private void Update()
     {
         if (EstaAbierto && TeclaAtras()) Cerrar();
+
+        // El boton "?" flotante se esconde mientras esta la pausa / opciones
+        if (botonPropio && botonRT != null)
+        {
+            bool ver = !SistemaPausa.EnPausa;
+            if (botonRT.gameObject.activeSelf != ver) botonRT.gameObject.SetActive(ver);
+        }
     }
 
     private void OnDestroy()
@@ -580,25 +588,53 @@ public class ManualSystem : MonoBehaviour
 
     private void CrearBotonFlotante()
     {
+        PuntajeConfig cfg = PuntajeConfig.Actual;
+        Sprite icono = iconoBoton != null ? iconoBoton : cfg.iconoBotonManual;
+
+        if (icono != null)
+        {
+            // Tu propia imagen: ocupa TODO el boton (sin el aro de codigo) y escala sin deformarse
+            RectTransform rt = NuevoRect("BotonManual", canvasRT, new Vector2(1f, 1f), new Vector2(1f, 1f));
+            float lado = tamanoBoton * Mathf.Max(0.1f, cfg.escalaIconoManual);
+            rt.sizeDelta = new Vector2(lado, lado);
+            rt.anchoredPosition = posicionBoton;
+
+            Image img = rt.gameObject.AddComponent<Image>();
+            img.sprite = icono;
+            img.color = Color.white;
+            img.preserveAspect = true;
+            img.raycastTarget = true;
+
+            Button bi = rt.gameObject.AddComponent<Button>();
+            bi.targetGraphic = img;
+            ColorBlock cbi = bi.colors;
+            cbi.normalColor = Color.white;
+            cbi.highlightedColor = new Color(0.92f, 0.92f, 0.92f, 1f);
+            cbi.pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            cbi.selectedColor = Color.white;
+            cbi.fadeDuration = 0.08f;
+            bi.colors = cbi;
+
+            rt.gameObject.AddComponent<GroxSafeOffset>();
+            botonManual = bi;
+            botonRT = rt;
+            botonPropio = true;
+            bi.onClick.AddListener(Abrir);
+            return;
+        }
+
         RectTransform interior;
         Button b = NuevoBotonRedondo("BotonManual", canvasRT, new Vector2(1f, 1f), posicionBoton,
                                      tamanoBoton, colorAcento, colorCubierta, out interior);
 
-        if (iconoBoton != null)
-        {
-            Image ic = NuevaImagen("Icono", interior, new Vector2(0.18f, 0.18f), new Vector2(0.82f, 0.82f),
-                                   Color.white, iconoBoton, false);
-            ic.preserveAspect = true;
-        }
-        else
-        {
-            TextMeshProUGUI signo = NuevoTexto("Signo", interior, Vector2.zero, Vector2.one, 20f, 90f,
-                                               FontStyles.Bold, TextAlignmentOptions.Center, colorCubierta);
-            signo.text = "?";
-        }
+        TextMeshProUGUI signo = NuevoTexto("Signo", interior, Vector2.zero, Vector2.one, 20f, 90f,
+                                           FontStyles.Bold, TextAlignmentOptions.Center, colorCubierta);
+        signo.text = "?";
 
+        b.gameObject.AddComponent<GroxSafeOffset>();
         botonManual = b;
         botonRT = (RectTransform)b.transform;
+        botonPropio = true;
         b.onClick.AddListener(Abrir);
     }
 

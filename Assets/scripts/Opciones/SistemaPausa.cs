@@ -184,12 +184,12 @@ public class SistemaPausa : MonoBehaviour
         {
             t += Time.unscaledDeltaTime;
             float k = Mathf.Clamp01(t / dur);
-            oscuroImg.color = new Color(0f, 0f, 0f, 0.7f * k);
+            oscuroImg.color = new Color(0f, 0f, 0f, cfg.opacidadFondoPausa * k);
             panelGrupo.alpha = k;
             rt.localScale = Vector3.one * Mathf.Lerp(0.9f, 1f, 1f - (1f - k) * (1f - k));
             yield return null;
         }
-        oscuroImg.color = new Color(0f, 0f, 0f, 0.7f);
+        oscuroImg.color = new Color(0f, 0f, 0f, cfg.opacidadFondoPausa);
         panelGrupo.alpha = 1f;
         rt.localScale = Vector3.one;
     }
@@ -228,8 +228,10 @@ public class SistemaPausa : MonoBehaviour
     {
         RectTransform rt = UIPuntaje.Rect("BotonPausa", canvasRT, new Vector2(1f, 1f), new Vector2(1f, 1f));
         rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(tamanoBoton, tamanoBoton);
+        float lado = tamanoBoton * (cfg.iconoBotonPausa != null ? Mathf.Max(0.1f, cfg.escalaIconoPausa) : 1f);
+        rt.sizeDelta = new Vector2(lado, lado);
         rt.anchoredPosition = posicionBoton;
+        rt.gameObject.AddComponent<GroxSafeOffset>();   // lo aparta de muescas / bordes redondeados
         botonGO = rt.gameObject;
 
         Image img = rt.gameObject.AddComponent<Image>();

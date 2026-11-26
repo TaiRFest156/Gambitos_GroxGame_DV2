@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        VentanaConfirmar.Mostrar("¿SALIR?", "Perderás el progreso de esta partida.", Application.Quit);
     }
 
     public void RestartLevel()

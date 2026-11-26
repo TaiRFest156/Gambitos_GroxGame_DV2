@@ -8694,11 +8694,11 @@ MonoBehaviour:
   iconoBoton: {fileID: 0}
   posicionBoton: {x: -230, y: -80}
   tamanoBoton: 110
-  colorCubierta: {r: 0.13725491, g: 0.105882354, b: 0.29411766, a: 1}
-  colorAcento: {r: 0.18039216, g: 0.9019608, b: 0.6509804, a: 1}
+  colorCubierta: {r: 0.18039216, g: 0.34509805, b: 0.46666667, a: 1}
+  colorAcento: {r: 0.047058824, g: 0.6666667, b: 0.8627451, a: 1}
   colorPapel: {r: 1, g: 0.95686275, b: 0.8627451, a: 1}
   colorTexto: {r: 0.16862746, g: 0.14509805, b: 0.2509804, a: 1}
-  colorAcentoPapel: {r: 0.05490196, g: 0.62352943, b: 0.46666667, a: 1}
+  colorAcentoPapel: {r: 0.04705883, g: 0.6666667, b: 0.86274517, a: 1}
   fuente: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   duracionVolteo: 0.45
   ordenCanvas: 500

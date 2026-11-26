@@ -16,24 +16,31 @@ MonoBehaviour:
   escenaMenu: Start_Menu
   fuenteTitulos: {fileID: 11400000, guid: 3fb1f02afbd221444a1a251107dea900, type: 2}
   fuenteTextos: {fileID: 11400000, guid: 1c23b8b2576593a48a9a110b8ba1b863, type: 2}
-  estrellaLlena: {fileID: 21300000, guid: 08bac2f65eb635d46b59b35c35b6d85c, type: 3}
-  estrellaVacia: {fileID: 21300000, guid: 797fbea0a85d0334eb29fcc9450ef57a, type: 3}
-  fondoPanel: {fileID: 21300000, guid: 217d11f392ee2f0418a73d52fcd2ab47, type: 3}
+  estrellaLlena: {fileID: 21300000, guid: a6bfb0946872bdf44a9cfc8b9a1e114f, type: 3}
+  estrellaVacia: {fileID: 21300000, guid: 0674bbda4393f2e479e52df364a8948c, type: 3}
+  fondoPanel: {fileID: 0}
   fondoBotonPrimario: {fileID: 21300000, guid: a011f6e6a14fd90499c1f1be7d7d9400, type: 3}
   fondoBotonSecundario: {fileID: 21300000, guid: a011f6e6a14fd90499c1f1be7d7d9400, type: 3}
+  fondoBotonAdvertencia: {fileID: 0}
   fondoBotonCerrar: {fileID: 21300000, guid: 3522b7ec7f799384e905489b4b6c7bf5, type: 3}
   fondoCampoTexto: {fileID: 0}
-  colorPanel: {r: 0.09411765, g: 0.10980392, b: 0.20392157, a: 0.9607843}
-  colorBorde: {r: 0.18039216, g: 0.9019608, b: 0.6509804, a: 1}
+  tinteImagenPrimario: {r: 1, g: 1, b: 1, a: 1}
+  tinteImagenSecundario: {r: 1, g: 1, b: 1, a: 1}
+  tinteImagenAdvertencia: {r: 1, g: 1, b: 1, a: 1}
+  escalaTitulos: 1
+  escalaTextos: 1
+  escalaBotones: 0.82
+  colorPanel: {r: 0, g: 0.39607847, b: 0.5058824, a: 0.9607843}
+  colorBorde: {r: 0.003921569, g: 0.9490197, b: 0.9607844, a: 1}
   colorTitulo: {r: 1, g: 1, b: 1, a: 1}
   colorTexto: {r: 0.88235295, g: 0.9019608, b: 0.9607843, a: 1}
   colorOro: {r: 1, g: 1, b: 1, a: 1}
-  colorBotonPrimario: {r: 0.18039216, g: 0.9019608, b: 0.6509804, a: 1}
+  colorBotonPrimario: {r: 0.050980397, g: 0.37254903, b: 0.47058827, a: 1}
   colorBotonSecundario: {r: 0.27450982, g: 0.54901963, b: 1, a: 1}
   colorBotonAdvertencia: {r: 1, g: 0.5882353, b: 0.27450982, a: 1}
   colorTextoBoton: {r: 1, g: 1, b: 1, a: 1}
   colorExito: {r: 0.23529412, g: 0.8235294, b: 0.47058824, a: 1}
-  colorError: {r: 1, g: 0.3529412, b: 0.3529412, a: 1}
+  colorError: {r: 0.9716981, g: 0.18586822, b: 0.022917405, a: 1}
   sonidoEstrella: {fileID: 8300000, guid: 47e078ad47ec04044b66325dc32df751, type: 3}
   sonidoPanel: {fileID: 0}
   sonidoBoton: {fileID: 8300000, guid: 56617bca3b078e34bb963927c561fea3, type: 3}
@@ -42,17 +49,30 @@ MonoBehaviour:
   maxRegistrosPorNivel: 50
   filasVisibles: 10
   maxCaracteresNombre: 12
-  iconoBotonPausa: {fileID: 0}
-  iconoAltavozActivo: {fileID: 0}
-  iconoAltavozSilenciado: {fileID: 0}
+  iconoBotonPausa: {fileID: 21300000, guid: 81a5c3f7e0227b841ac07189907990ff, type: 3}
+  iconoAltavozActivo: {fileID: 21300000, guid: 4e45d8197fb87c54c993861736c29e38, type: 3}
+  iconoAltavozSilenciado: {fileID: 21300000, guid: 4e926fe1615e86541b48641d5e98fd24, type: 3}
   fondoSlider: {fileID: 0}
   rellenoSlider: {fileID: 0}
   perillaSlider: {fileID: 0}
   fondoCasilla: {fileID: 0}
   marcaCasilla: {fileID: 0}
+  iconoBotonManual: {fileID: 21300000, guid: a90c218a63fb8144eb79576842c44b4f, type: 3}
+  escalaIconoPausa: 1
+  escalaIconoManual: 1
+  esquinasRedondeadas: 0
+  tamanoCorte: 80
+  cortarArribaIzquierda: 1
+  cortarAbajoDerecha: 1
+  cortarArribaDerecha: 0
+  cortarAbajoIzquierda: 0
+  rellenoOpacoPaneles: 0
+  colorRellenoPanel: {r: 0.023529412, g: 0.05490196, b: 0.11764706, a: 1}
+  margenRellenoPanel: 18
+  opacidadFondoPausa: 0.908
   tituloPausa: EN PAUSA
   textoContinuar: Continuar
   textoReiniciar: Reiniciar nivel
   textoOpciones: Opciones
-  textoSalirMenu: "Salir al men\xFA principal"
+  textoSalirMenu: "Men\xFA principal"
   tituloOpciones: OPCIONES
