@@ -8699,7 +8699,7 @@ MonoBehaviour:
   colorPapel: {r: 1, g: 0.95686275, b: 0.8627451, a: 1}
   colorTexto: {r: 0.16862746, g: 0.14509805, b: 0.2509804, a: 1}
   colorAcentoPapel: {r: 0.05490196, g: 0.62352943, b: 0.46666667, a: 1}
-  fuente: {fileID: 0}
+  fuente: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   duracionVolteo: 0.45
   ordenCanvas: 500
   sonidoAbrir: {fileID: 0}

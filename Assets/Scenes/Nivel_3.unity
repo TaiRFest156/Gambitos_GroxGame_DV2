@@ -1588,7 +1588,7 @@ MonoBehaviour:
   colorPapel: {r: 1, g: 0.95686275, b: 0.8627451, a: 1}
   colorTexto: {r: 0.16862746, g: 0.14509805, b: 0.2509804, a: 1}
   colorAcentoPapel: {r: 0.05490196, g: 0.62352943, b: 0.46666667, a: 1}
-  fuente: {fileID: 0}
+  fuente: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
   duracionVolteo: 0.45
   ordenCanvas: 500
   sonidoAbrir: {fileID: 0}
@@ -5649,6 +5649,8 @@ MonoBehaviour:
   tiempoMinimo: 0.4
   reduccionTiempo: 0.01
   duracionSpawner: 30
+  umbralDosEstrellas: 1.5
+  umbralTresEstrellas: 2
   candidatosPorSpawn: 8
   memoriaSpawns: 12
   distanciaMinimaJugador: 2.5
@@ -9679,6 +9681,13 @@ MonoBehaviour:
   hud: {fileID: 1794826871}
   fusibles: 3
   numeroNivel: 3
+  meta: 3000
+  puntosPorPedido: 1000
+  puntosPresion: 500
+  puntosSinErrores: 500
+  puntosPorFusible: 500
+  umbralDosEstrellas: 1.35
+  umbralTresEstrellas: 1.7
   vibrar: 1
   pedidos:
   - producto: Botella
