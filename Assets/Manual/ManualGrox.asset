@@ -19,7 +19,7 @@ MonoBehaviour:
       Nimbus-072: c\xF3mo moverte, c\xF3mo jugar cada nivel y, lo m\xE1s importante,
       c\xF3mo reciclar de verdad.\n\nPasa las hojas con las flechas o deslizando
       el dedo.\n\nPuedes abrir este manual cuando quieras con el bot\xF3n del libro."
-    imagen: {fileID: 0}
+    imagen: {fileID: 21300000, guid: 89e6aae681a348b4ca5380d12fc3bc83, type: 3}
   - etiqueta: Historia
     titulo: Nimbus-072 necesita ayuda
     texto: "En un futuro lejano, la humanidad produjo tanta basura que decidi\xF3
@@ -47,8 +47,13 @@ MonoBehaviour:
     texto: "La basura cae sobre el planeta. \xA1Atr\xE1pala antes de que lo contamine!\n\n<b>C\xF3mo
       ganar:</b> recolecta suficiente basura antes de que se acabe el tiempo y llena
       la barra de objetivo.\n\n<b>C\xF3mo perder:</b> si el tiempo termina y no llegaste
-      a la meta, Nimbus-072 se contamina."
+      a la meta, Nimbus-072 se contamina.\nAL TERMINAR EL NIVEL Y DARLE \"CONTINUAR\",
+      DIRIGITE A LA ESTACI\xD3N O A LA CASA PARA CONTINUAR AL NIVEL 2"
     imagen: {fileID: 0}
+  - etiqueta: Nivel 1
+    titulo: 
+    texto: 
+    imagen: {fileID: 21300000, guid: cca943c3b78c6ba4ea44891c8bb8f43c, type: 3}
   - etiqueta: Nivel 1
     titulo: Consejos del Nivel 1
     texto: "Apunta con calma: el rayo necesita un breve descanso entre disparos.\n\nNo
