@@ -2249,6 +2249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1134979836}
   - component: {fileID: 1134979835}
+  - component: {fileID: 1134979837}
   m_Layer: 0
   m_Name: Level2Manager
   m_TagString: Untagged
@@ -2328,6 +2329,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1134979837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134979834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c9899d18e94f646bd37074b0451bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nivel2Effects
+  scoreText: {fileID: 2071834779}
+  timerText: {fileID: 114748172}
+  contenedores: []
+  nieblaActiva: 1
+  colorNiebla: {r: 0.45, g: 0.5, b: 0.38, a: 1}
+  opacidadMaxima: 0.55
+  cantidadNubes: 14
+  subidaPorError: 0.22
+  bajadaPorAcierto: 0.12
+  maximoPorRitmo: 0.35
+  erroresParaAdvertir: 3
+  segundosAlerta: 10
+  colorAlerta: {r: 1, g: 0.2, b: 0.2, a: 1}
+  colorMeta: {r: 1, g: 0.84, b: 0.1, a: 1}
+  rachaMinima: 3
+  fuente: {fileID: 11400000, guid: 9e338af88416f864a80efcb281e4c37a, type: 2}
 --- !u!1 &1204534177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3393,7 +3422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1894535812
 ParticleSystemRenderer:
   serializedVersion: 7
