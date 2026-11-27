@@ -1,0 +1,91 @@
+AMANO PROPS - STYLE GUIDE (Crystal Worlds v1.0.2)
+=========================================
+
+1. SCALE: 1 unit = 1 meter (alien tree 8 m, energy crystal 1-8 m, boulder 1-3 m, ground patch 10 x 10 m).
+2. ORIGIN: on the ground, centre of the footprint (ground patches: centre of the patch, surface near z = 0).
+3. PALETTE: ONE texture Textures/props_palette.png, 8 columns x 10 rows of 16 px cells. Every face is
+   UV-mapped to the center of one palette cell. Cells are only appended, never moved. Palettes dusk / mist / night keep the layout.
+4. STYLE: low poly, large smooth facets, slim silhouettes, soft light. No characters, no brands, no text.
+5. NAMING: Category folder + Asset_Name, e.g. Trees/Tree_Slim_A, Alien/Energy_Crystal_Spire.
+
+PALETTE TABLE (cell -> name -> color)
+    0  sand                 #F0C870
+    1  sand_light           #F8DD9C
+    2  sand_dark            #D9A95A
+    3  sand_shadow          #C48E4A
+    4  terracotta           #C8754A
+    5  rock_red             #B5684A
+    6  rock_red_dark        #8C4C3A
+    7  rock_red_light       #D98E68
+    8  snow                 #F6F9FD
+    9  snow_shade           #D0DDEF
+   10  snow_blue            #B5CCE8
+   11  ice                  #A0D6EF
+   12  ice_deep             #5FA4D6
+   13  frost                #E3F0FB
+   14  crystal_blue         #55C8FF
+   15  crystal_cyan         #86ECFF
+   16  rock                 #9B9BA9
+   17  rock_light           #BDBDCC
+   18  rock_dark            #6E6E81
+   19  rock_lilac           #8D7DA8
+   20  rock_warm            #B9A99B
+   21  rock_moss            #8AA27B
+   22  stone_white          #DAD8D2
+   23  slate                #4D5667
+   24  birch                #F0EDE5
+   25  birch_mark           #3B3B41
+   26  bark                 #8C5E3C
+   27  bark_dark            #5E3D28
+   28  pine                 #2F7B5B
+   29  pine_dark            #1F5B47
+   30  pine_snow            #DFEEE7
+   31  trunk_orange         #DA956B
+   32  leaf_lime            #9FD95B
+   33  leaf_light           #B9E171
+   34  leaf                 #70C050
+   35  leaf_dark            #4B9B49
+   36  leaf_yellow          #D9D961
+   37  leaf_orange          #E9913B
+   38  palm                 #60B96B
+   39  palm_dark            #409959
+   40  water                #5FD1D1
+   41  water_light          #9BE9E5
+   42  water_deep           #2F9FB1
+   43  foam                 #F3FCFC
+   44  grass                #A9D161
+   45  grass_light          #C1E171
+   46  grass_dark           #79B14F
+   47  beach                #F6E3B1
+   48  trunk_orange_dark    #B9744F
+   49  flower_pink          #F18DB5
+   50  flower_white         #FCFCFC
+   51  flower_yellow        #F9D94B
+   52  flower_purple        #9B6BD1
+   53  mushroom             #D94B41
+   54  dirt                 #9B7B59
+   55  dirt_dark            #6F5741
+   56  wood                 #B98959
+   57  cloth                #D94B5B
+   58  rope                 #C5A86B
+   59  fire                 #FF9B3B
+   60  ember                #3B2B25
+   61  moon                 #F5F9FF
+   62  night_blue           #17356B
+   63  cactus               #70A15B
+   64  crystal_purple       #B05CFF
+   65  crystal_violet       #E0A8FF
+   66  crystal_magenta      #FF5FD0
+   67  crystal_deep         #6A2FC0
+   68  alien_ground         #4D3275
+   69  alien_ground_light   #73509F
+   70  alien_ground_dark    #2F1D4D
+   71  alien_rock           #453B6B
+   72  alien_rock_light     #6A5F9C
+   73  alien_plant          #3DE8B8
+   74  alien_plant_dark     #1F9E8A
+   75  alien_stem           #8A62B8
+   76  alien_pod            #FF8FE6
+   77  alien_metal          #9A9AB5
+   78  alien_glass          #7AD8FF
+   79  alien_orange         #FFAE4A

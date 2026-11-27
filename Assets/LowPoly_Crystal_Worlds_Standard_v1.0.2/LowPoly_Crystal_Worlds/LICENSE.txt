@@ -1,0 +1,19 @@
+Low Poly Crystal Worlds - License
+
+Copyright (c) 2026 Amano007
+
+You are granted a non-exclusive, worldwide, perpetual license to use and modify
+these assets in any number of personal or commercial projects: commercial games
+for PC, console and mobile (Android / iOS), apps, films, renders, prototypes,
+with or without attribution. The license covers you and your team and has no
+royalties and no limit on the number of copies of your game you sell.
+The assets may be included inside your game or app builds.
+
+You may NOT:
+  - resell, share or redistribute the models, textures or files, modified or not,
+    on their own or as part of another asset pack, template, library or marketplace
+    listing (only inside a finished game/app is allowed);
+  - claim the assets as your own original creation;
+  - use the assets to train machine-learning models.
+
+Credit is appreciated but not required.

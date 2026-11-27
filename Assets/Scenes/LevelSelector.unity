@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSelector
   levelButtonPrefab: {fileID: 5121041726139624328, guid: ac240dfdaf21d694c90e0377f5917178, type: 3}
   buttonContainer: {fileID: 810975142}
-  totalLevels: 2
+  totalLevels: 3
 --- !u!114 &215485387
 MonoBehaviour:
   m_ObjectHideFlags: 0
