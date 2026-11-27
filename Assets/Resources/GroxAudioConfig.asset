@@ -45,7 +45,7 @@ MonoBehaviour:
     - name: Main
       layers:
       - name: Base
-        clip: {fileID: 0}
+        clip: {fileID: 8300000, guid: b22ec006db9f9f8479983e1c81511338, type: 3}
         volume: 1
         enterAt: 0
         leaveAt: 1
@@ -131,7 +131,7 @@ MonoBehaviour:
     - name: Main
       layers:
       - name: Base
-        clip: {fileID: 0}
+        clip: {fileID: 8300000, guid: 87f94db79ddacb3418339f75b97b5211, type: 3}
         volume: 1
         enterAt: 0
         leaveAt: 1

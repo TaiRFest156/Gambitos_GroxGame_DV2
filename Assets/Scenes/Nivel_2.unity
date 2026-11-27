@@ -2276,6 +2276,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f75bbf6021c892468b75ac402d85bf7, type: 2}
   - {fileID: 11400000, guid: 3dbf7ae6c0246084daccd9e98745557b, type: 2}
   - {fileID: 11400000, guid: 47382c1992ba54641baa4c96020cbf10, type: 2}
+  - {fileID: 11400000, guid: 28b9bec86e27c3746af991f4ea37c771, type: 2}
   spawnPoint: {fileID: 1745120364}
   launchSpeed: 3
   targetLeft: {fileID: 1577004492}

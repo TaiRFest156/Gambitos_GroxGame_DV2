@@ -18,16 +18,17 @@ MonoBehaviour:
     texto: "Hola, Grox. Este libro te ense\xF1a todo lo que necesitas para limpiar
       Nimbus-072: c\xF3mo moverte, c\xF3mo jugar cada nivel y, lo m\xE1s importante,
       c\xF3mo reciclar de verdad.\n\nPasa las hojas con las flechas o deslizando
-      el dedo.\n\nPuedes abrir este manual cuando quieras con el bot\xF3n del libro."
+      el dedo.\n\nPuedes abrir este manual cuando quieras con el bot\xF3n del libro.\nConoce
+      mas sobre reciclaje: \n<b>https://ambientejujuy.gob.ar/</b>"
     imagen: {fileID: 21300000, guid: 89e6aae681a348b4ca5380d12fc3bc83, type: 3}
   - etiqueta: Historia
     titulo: Nimbus-072 necesita ayuda
-    texto: "En un futuro lejano, la humanidad produjo tanta basura que decidi\xF3
-      mandarla al espacio. Por accidente, los desechos cayeron sobre Nimbus-072,
-      un planeta pac\xEDfico.\n\nGrox, un marciano curioso y responsable, es el encargado
-      de limpiarlo con su <b>Pistola de Rayo Recolector</b> antes de que el ecosistema
-      colapse."
-    imagen: {fileID: 0}
+    texto: "En un futuro lejano, una civilizaci\xF3n alien\xEDgena vecina produjo
+      tanta basura que decidi\xF3 mandarla al espacio. Por accidente, por eso enviaron
+      en una nave toda la basura para tirarla sobre Nimbus-072, un planeta pac\xEDfico.\n\nGrox,
+      un marciano cient\xEDfico curioso y responsable, es el encargado de limpiarlo
+      con su <b>Pistola de Rayo Recolector</b> antes de que el ecosistema colapse."
+    imagen: {fileID: 21300000, guid: bf036eab7d06eb34fa36664d3b1af191, type: 3}
   - etiqueta: Controles
     titulo: Moverte y recolectar
     texto: "<b>Joystick t\xE1ctil:</b> a la izquierda de la pantalla, para mover
