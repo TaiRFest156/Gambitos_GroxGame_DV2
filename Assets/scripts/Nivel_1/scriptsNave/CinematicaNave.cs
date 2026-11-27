@@ -22,13 +22,20 @@ public class CinematicaNave : MonoBehaviour
 
     void Start()
     {
-        // Al comenzar, el jugador conserva el control de su cámara
+        // Mantener ambas cámaras activas como objetos
         if (camaraJugador != null)
+        {
+            camaraJugador.gameObject.SetActive(true);
             camaraJugador.enabled = true;
+            camaraJugador.depth = 0;
+        }
 
-        // La cámara cinematográfica comienza apagada
         if (camaraNave != null)
+        {
+            camaraNave.gameObject.SetActive(true);
             camaraNave.enabled = false;
+            camaraNave.depth = 1;
+        }
     }
 
     public void IniciarCinematica()
