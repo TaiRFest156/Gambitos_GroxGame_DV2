@@ -259,12 +259,23 @@ public class Nivel3Manager : MonoBehaviour
         bool repetirUsado = false;
         bool completada = false;
 
+        bool primeraReproduccion = true;
         while (!completada)
         {
             hud.ResetPasos();
             hud.MostrarBotonRepetir(false);
             hud.SetInstruccion("3. Memoriza la secuencia de la pared.");
-            yield return new WaitForSeconds(0.9f);
+
+            if (primeraReproduccion)
+            {
+                yield return new WaitForSeconds(3f);
+                primeraReproduccion = false;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.9f);
+            }
+
             yield return simon.Reproducir(secuencia, p.velocidadSecuencia);
 
             hud.SetInstruccion("¡Tu turno! Pisa las placas del piso en el mismo orden.");
